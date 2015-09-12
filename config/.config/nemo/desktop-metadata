@@ -1,0 +1,53 @@
+[directory]
+nemo-icon-view-keep-aligned=true
+nemo-icon-view-layout-timestamp=1442090600
+
+[home]
+nemo-icon-position=64,102
+icon-scale=1
+nemo-icon-position-timestamp=1442090600
+
+[computer]
+nemo-icon-position=64,22
+icon-scale=1
+nemo-icon-position-timestamp=1442090600
+
+[16 GB Volume.volume]
+nemo-icon-position=64,202
+icon-scale=1
+nemo-icon-position-timestamp=1441852644
+
+[1.0 TB Volume.volume]
+nemo-icon-position=64,542
+icon-scale=1
+nemo-icon-position-timestamp=1441577257
+
+[320 GB Volume.volume]
+nemo-icon-position=64,542
+icon-scale=1
+nemo-icon-position-timestamp=1441562167
+
+[XT1031.volume]
+nemo-icon-position=64,202
+icon-scale=1
+nemo-icon-position-timestamp=1441556963
+
+[LMDE 2 Cinnamon 64-bit.volume]
+nemo-icon-position=64,742
+icon-scale=1
+nemo-icon-position-timestamp=1441845449
+
+[PENDRIVE.volume]
+nemo-icon-position=64,302
+icon-scale=1
+nemo-icon-position-timestamp=1442059340
+
+[windows-bootable.volume]
+nemo-icon-position=64,202
+icon-scale=1
+nemo-icon-position-timestamp=1441685157
+
+[4.1 GB Volume.volume]
+nemo-icon-position=64,302
+icon-scale=1
+nemo-icon-position-timestamp=1442064168

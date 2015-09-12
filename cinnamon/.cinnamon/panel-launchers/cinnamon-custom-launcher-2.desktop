@@ -1,0 +1,7 @@
+[Desktop Entry]
+Comment=Konsole
+Terminal=false
+Name=Konsole
+Exec=konsole --fullscreen
+Type=Application
+Icon=konsole
