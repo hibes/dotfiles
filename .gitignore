@@ -1,0 +1,15 @@
+cache/*
+azureus/*
+mozilla/*
+local/*
+macromedia/*
+gstreamer/*
+gimp/*
+swt/*
+
+vim/.viminfo
+X/.xsession-errors
+ssh/.ssh/id_rsa
+cinnamon/.cinnamon/spices.cache
+
+TODO/.TODO
