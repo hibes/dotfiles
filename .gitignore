@@ -1,16 +1,29 @@
 cache/*
+config/*
 azureus/*
 mozilla/*
 local/*
 macromedia/*
 gstreamer/*
+gnupg/*
+gksu.lock/*
 gimp/*
 swt/*
+dmrc/*
+face/*
+ICEauthority/*
+
+vim/*
+!vim/.vimrc
 
 bash/.bash_history
 vim/.viminfo
+X/.Xauthority
 X/.xsession-errors
 ssh/.ssh/id_rsa
 cinnamon/.cinnamon/spices.cache
+kde/tmp-*
+kde/cache-*
+kde/socket-*
 
 TODO/.TODO
