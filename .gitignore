@@ -1,3 +1,5 @@
+**/cache/*
+**/cached/*
 cache/*
 config/*
 azureus/*
