@@ -1,0 +1,12 @@
+[General]
+PassiveResourceKeys=
+ResourceKeys=Tm2NvbCfT5
+Standard=Tm2NvbCfT5
+
+[Resource_Tm2NvbCfT5]
+FileFormat=vcard
+ResourceIdentifier=Tm2NvbCfT5
+ResourceIsActive=true
+ResourceIsReadOnly=false
+ResourceName=Default Address Book
+ResourceType=file

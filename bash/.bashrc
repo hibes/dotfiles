@@ -80,12 +80,14 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
 #### BASH FUNCTIONS
 pathadd() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
+
 #### Call login scripts ###
 . /opt/scripts/acd_func.sh
 cat /home/kevin/.TODO
@@ -101,18 +103,11 @@ fi
 ### Add opt programs to path
 pathadd /opt/bin/ #create symlinks to other opt executables here
 pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
-#PATH=$PATH:/opt/scripts/ # put generic one-off scripts here, add everything to the path
 
-#Virt notes
-#start dev machine
-#sudo virsh start guest
+function cdev-test {
+  NUM="${1:-1}"
+  sudo ~/vm-prog/dockerfiles/developer/docker-run.sh $NUM 10$NUM22
+  ssh admin@localhost -X -p10$NUM22
+}
 
-#view dev machine
-#sudo virt-viewer dev
-
-#stop dev machine
-#sudo virsh shutdown dev 
-
-#force stop dev machine
-#sudo virsh destroy dev
-
+set -o ignoreeof

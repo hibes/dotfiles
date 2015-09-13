@@ -1,5 +1,7 @@
-alias la="ls -al"
-alias lt="ls -altr"
+alias la="ls -AFl"
+alias lt="ls -AFltr"
+alias ll='ls -lF'
 alias vv="cd --"
 alias sudo="sudo env PATH=$PATH" #otherwise has limited path
-alias cw="ssh -X 192.168.122.225"
+
+alias cdev="sudo ~/vm-prog/dockerfiles/developer/docker-run.sh 1 10122; ssh admin@localhost -X -p10122"
