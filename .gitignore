@@ -22,8 +22,8 @@ X/.Xauthority
 X/.xsession-errors
 ssh/.ssh/id_rsa
 cinnamon/.cinnamon/spices.cache
-kde/tmp-*
-kde/cache-*
-kde/socket-*
+kde/.kde/tmp-*
+kde/.kde/cache-*
+kde/.kde/socket-*
 
 TODO/.TODO
