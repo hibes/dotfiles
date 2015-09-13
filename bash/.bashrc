@@ -116,3 +116,4 @@ pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the 
 #force stop dev machine
 #sudo virsh destroy dev
 
+set -o ignoreeof
