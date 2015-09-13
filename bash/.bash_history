@@ -506,3 +506,197 @@ du -sh ~/.kde/
 sudo cp -R ../.kde/ ./kde/
 ls -al ./kde/
 rm -rf ./kde/.kde/
+vim ./dotfiles/
+. .bashrc 
+la
+cd dotfiles/
+la ..
+la profile/
+cat profile/.profile 
+diff ./profile/.profile ../.profile 
+rm ../.profile 
+stow profile/
+vim ../vm-prog/setup-vm/setup-lmde.sh 
+la ..
+cat ../.ICEauthority 
+la
+vim .gitignore 
+la ..
+gir rm -r --cached ./ICEauthority/
+git rm -r --cached ./ICEauthority/
+la
+la ..
+cat .gitignore 
+find ../.kde/
+cat ../.kde/share/config/akonadi
+cat ../.kde/share/config/akonadi_akonotes_resource_0rc 
+la kde/.kde/
+cat .gitignore 
+ls -al ./kde/
+ls -al ../.kde/
+find ./kde/ | grep aurora
+sudo find ./kde/ | grep aurora
+ls -al ./kde/.kde/share/apps/ | grep kabc
+la
+la ..
+find ../.ssh/
+find ./ssh/
+cat ./ssh/.ssh/config 
+cat ../.ssh/config
+cat ../.ssh/known_hosts 
+cat ./ssh/.ssh/known_hosts 
+cp -R ../.ssh/* ./ssh/.ssh/
+ls -al ./ssh/.ssh/
+rm ./ssh/.ssh/config
+mv ../.ssh/config ./ssh/.ssh/
+rm ./ssh/.ssh/config.bak 
+la
+rm ../.ssh/ -rf
+stow ssh
+stow profile
+find selected_editor/
+cat selected_editor/.selected_editor 
+stow selected_editor/
+vim ../vm-prog/setup-vm/setup-lmde.sh 
+ll
+la ..
+vim ../vm-prog/setup-vm/setup-lmde.sh 
+la ..
+la ../tmp/
+rmdir ../tmp/
+cat ../.Xauthority 
+vim .gitignore 
+rm --cached X/.Xauthority 
+git rm --cached X/.Xauthority 
+la
+stow X
+rm X/.Xauthority 
+stow X
+cat ../.viminfo 
+cat ../.vim/.netrwhist 
+ls -al
+la ./vim/
+vim ./.gitignore 
+stow vim
+la
+git status -s
+git add .gitignore 
+git commit -m "Removed some unneeded files, updated gitignore"
+git log
+git log --oneline
+git branch
+git checkout master
+git stash
+git checkout master
+git cherry-pick 8b02
+ls -al
+la
+git cherry-pick 399c
+git status -s
+git push
+la
+ls -al ../.ssh
+git checkout wintermute 
+git rm ./ssh/.ssh/known_hosts 
+rm ./ssh/.ssh/known_hosts 
+git checkout wintermute 
+git branch --oneline
+git log --oneline
+git merge aurora
+git status -s
+git push
+git checkout aurora
+git status -s
+git stash pop
+rm ssh/.ssh/known_hosts 
+git stash pop
+git status -s
+du -sh ./*
+du -sh ./.git
+git add .
+git commit -m "aurora initial commit"
+git status -s
+ls -al ./kde/.kde/cache-*
+ls -al ./kde/.kde/cache-.*
+ls -al ./kde/.kde/cache*
+ls -al ./kde/.kde/cache**
+ls -al "./kde/.kde/cache**"
+ls -al "./kde/.kde/cache*"
+ls -al "./kde/.kde/cache.*"
+ls -al "./kde/.kde/*
+ls -al "./kde/.kde/*"
+ls "./kde/.kde/*"
+ls ./kde/.kde/*
+ls ./kde/.kde/cac*
+ls ./kde/.kde/share/cac*
+ls -al ./kde/.kde/
+ls -al ./kde/.kde/share/
+vim .gitignore 
+la kde/.kde/
+git add .gitignore 
+git status -s
+la ./kde/
+vim .gitignore 
+la ./kde/
+la ../
+cd kde/
+la
+mv ./Autostart/ ./.kde/
+mv ./cache-aurora ./.kde/
+mv ./*-aurora ./.kde/
+la
+mv ./share/ ./.kde/
+git mv ./share/* ./.kde/share/
+git mv ./share/* ./.kde/share/ -f
+cp -R ./share/* ./.kde/share/ -f
+la
+sudo sudo mv ./share/ ./.kde/
+sudo mv ./share/ ./.kde/
+sudo cp -R ./share/ ./.kde/
+ls -al ./.kde/
+la
+sudo rm -rf ./share/
+cd ..
+stow kde
+sudo mv ./kde/.kde/share/kde4/ ../.kde/share/
+la ../.kde/share/
+la ../.kde/share/kde4/
+git status -s
+vim .gitignore 
+git add .
+git commit -m "Changed kde locations"
+git status -s
+git pull
+git branch
+git push -u origin aurora
+git pull
+git pull master
+git checkout master
+git status -s
+git add .
+git commit -m "Updating known hosts"
+git checkout master
+git pull
+rm ./ssh/.ssh/known_hosts 
+git pull
+rm ../.ssh
+cp -R ./ssh/.ssh/ ../.ssh
+git pull
+rm ./ssh/.ssh/known_hosts 
+git pull
+rm ../.ssh -rf
+stow ssh
+git status -s
+rm -rf ./kde/
+la
+git status -s
+git checkout aurora 
+git checkout aurora -f
+git status -s
+git push
+git merge master gitconfig/.gitconfig
+git checkout master gitconfig/.gitconfig
+git status -s
+git add .
+git commit -m "Merged gitconfig from master"
+exit

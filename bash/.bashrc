@@ -110,4 +110,5 @@ function cdev-test {
   ssh admin@localhost -X -p10$NUM22
 }
 
-set -o ignoreeof
+set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
+stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
