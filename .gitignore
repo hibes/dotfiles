@@ -12,6 +12,7 @@ swt/*
 dmrc/*
 face/*
 ICEauthority/*
+kde/*
 
 vim/*
 !vim/.vimrc
