@@ -13,6 +13,8 @@ dmrc/*
 face/*
 ICEauthority/*
 
+*.log
+
 vim/*
 !vim/.vimrc
 
@@ -25,5 +27,9 @@ cinnamon/.cinnamon/spices.cache
 kde/.kde/tmp-*
 kde/.kde/cache-*
 kde/.kde/socket-*
+kde/.kde/share/config/kconf_updaterc
 
 TODO/.TODO
+updateInfoAdded=true
+
+
