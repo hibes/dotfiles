@@ -106,5 +106,7 @@ pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the 
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 
-export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
+if [ -d /opt/git-radar ]; then
+  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
+fi
 
