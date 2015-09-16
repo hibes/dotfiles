@@ -26,5 +26,6 @@ cinnamon/.cinnamon/spices.cache
 kde/.kde/tmp-*
 kde/.kde/cache-*
 kde/.kde/socket-*
+kde/.kde/share/apps/korganizer
 
 TODO/.TODO
