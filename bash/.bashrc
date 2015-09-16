@@ -92,7 +92,6 @@ pathadd() {
 . /opt/scripts/acd_func.sh
 cat /home/kevin/.TODO
 
-
 #####Stay in a tmux session if at all possible
 if which tmux 2>&1 >/dev/null 
 then
@@ -103,6 +102,7 @@ fi
 ### Add opt programs to path
 pathadd /opt/bin/ #create symlinks to other opt executables here
 pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
+pathadd /sbin/
 
 function cdev-test {
   NUM="${1:-1}"

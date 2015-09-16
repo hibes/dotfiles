@@ -3,3 +3,5 @@
 	name = Kevin Johnston
 [push]
 	default = matching
+[alias]
+	co = checkout
