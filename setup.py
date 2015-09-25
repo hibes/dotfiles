@@ -36,7 +36,7 @@ fil.close()
 
 proc_list=proc.split("\n")
 for proc in proc_list:
-  if proc.split("/")[1] == "docker":
+  if len(proc.split("/")) > 1 and proc.split("/")[1] == "docker":
     fil=open("/root/hostname", "r")
     hostname=fil.read()
     fil.close()
