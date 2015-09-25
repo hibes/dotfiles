@@ -35,6 +35,7 @@ proc=fil.read()
 fil.close()
 
 proc_list=proc.split("\n")
+hostname=''
 for proc in proc_list:
   if len(proc.split("/")) > 1 and proc.split("/")[1] == "docker":
     fil=open("/root/hostname", "r")
