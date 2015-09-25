@@ -34,6 +34,7 @@ fil=open("/proc/self/cgroup", "r")
 proc=fil.read()
 fil.close()
 
+
 proc_list=proc.split("\n")
 hostname=''
 for proc in proc_list:
@@ -58,4 +59,8 @@ for dotfil in this_machine['dot']:
   #...and each user that needs to be setup...
   for user in sys.argv[1:]:
     #...call stow 
+    os.remove("/home/" + user + ".bashrc")
+    os.remove("/home/" + user + ".bash_aliases")
+    os.remove("/home/" + user + ".bash_logout")
+    os.remove("/home/" + user + ".bash_history")
     subprocess.call("stow -t/home/" + user + " -d/home/" + user + "dotfiles" + dotfil)
