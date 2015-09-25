@@ -44,7 +44,7 @@ for proc in proc_list:
 if hostname == '':
   hostname=os.uname()[1]
 
-def this_machine={}
+this_machine={}
 for mach in all_machines:
   if mach['hn'] == hostname:
     this_machine = mach
