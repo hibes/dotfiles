@@ -3,7 +3,7 @@
 
 import os
 import subprocess
-from sys import argv
+import sys
 
 
 ##################################################
