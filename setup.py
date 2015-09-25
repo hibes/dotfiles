@@ -10,13 +10,13 @@ from sys import argv
 ############## CONFIGURATION LOGIC ###############
 ##################################################
 'Holds all machines'
-all_machines=set([])
+all_machines=[]
 
 'Creates a new machine and returns it'
 def defineMachine(hostname, dotfilesList):
   new_machine = {'hn' : hostname,
           'dot' : dotfilesList}
-  all_machines.add(new_machine)
+  all_machines.append(new_machine)
   return new_machine
 
 default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
