@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 'Based on hostname determine which dotfiles should be installed with stow for each passed in user.'
 
 import os
