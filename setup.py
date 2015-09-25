@@ -10,19 +10,19 @@ from sys import argv
 ############## CONFIGURATION LOGIC ###############
 ##################################################
 'Holds all machines'
-def all_machines=set([])
+all_machines=set([])
 
 'Creates a new machine and returns it'
 def defineMachine(hostname, dotfilesList):
-  def new_machine = {'hn' : hostname,
+  new_machine = {'hn' : hostname,
           'dot' : dotfilesList}
   all_machines.add(new_machine)
   return new_machine
 
-def default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 
-def dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
-def docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 
 ##################################################
 ################# SETUP LOGIC ####################
