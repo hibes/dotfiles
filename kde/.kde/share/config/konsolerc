@@ -16,6 +16,7 @@ State=AAAA/wAAAAD9AAAAAAAAA0oAAAHfAAAABAAAAAQAAAAIAAAACPwAAAAA
 ToolBarsMovable=Disabled
 
 [Notification Messages]
+CloseAllTabs=true
 ShowPasteHugeTextWarning=false
 
 [TabBar]
