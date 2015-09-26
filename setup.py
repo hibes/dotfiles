@@ -54,13 +54,14 @@ for mach in all_machines:
 if this_machine == {}:
   this_machine = default
 
+def remove_existing(fname):
+  if os.path.isfile(fname):
+    os.remove(fname)
+
 #for each dotfile to be setup with this machine...
 for dotfil in this_machine['dot']:
   #...and each user that needs to be setup...
   for user in sys.argv[1:]:
     #...call stow 
-    os.remove("/home/" + user + ".bashrc")
-    os.remove("/home/" + user + ".bash_aliases")
-    os.remove("/home/" + user + ".bash_logout")
-    os.remove("/home/" + user + ".bash_history")
-    subprocess.call("stow -t/home/" + user + " -d/home/" + user + "dotfiles" + dotfil)
+    #subprocess.call("stow -t /home/" + user + "/ -d /home/" + user + "/dotfiles/ " + dotfil)
+    subprocess.call(["stow", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil])
