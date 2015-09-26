@@ -22,28 +22,23 @@ def defineMachine(hostname, dotfilesList):
 default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 
 dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
-docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+#docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig'))
 
 ##################################################
 ################# SETUP LOGIC ####################
 ##################################################
 
+#open /dev/null to ignore uninteresting errors
+FNULL = open(os.devnull, 'w')
 
-#check if this is running in a docker environment (because they have dynamic hostnames)
-fil=open("/proc/self/cgroup", "r")
-proc=fil.read()
-fil.close()
-
-
-proc_list=proc.split("\n")
 hostname=''
-for proc in proc_list:
-  if len(proc.split("/")) > 1 and proc.split("/")[1] == "docker":
-    fil=open("/root/hostname", "r")
-    hostname=fil.read()
-    fil.close()
-    
-if hostname == '':
+#check if this is running in a docker environment (because they have dynamic hostnames)
+if os.path.isfile("/.dockerenv"): 
+  fil=open("/root/hostname", "r")
+  hostname=fil.read()
+  fil.close()
+else:    
   hostname=os.uname()[1]
 
 this_machine={}
@@ -51,17 +46,21 @@ for mach in all_machines:
   if mach['hn'] == hostname:
     this_machine = mach
 
+#this machine isn't defined, use default setup
 if this_machine == {}:
   this_machine = default
-
-def remove_existing(fname):
-  if os.path.isfile(fname):
-    os.remove(fname)
 
 #for each dotfile to be setup with this machine...
 for dotfil in this_machine['dot']:
   #...and each user that needs to be setup...
   for user in sys.argv[1:]:
     #...call stow 
-    #subprocess.call("stow -t /home/" + user + "/ -d /home/" + user + "/dotfiles/ " + dotfil)
-    subprocess.call(["stow", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil])
+    # get list of files to be stowed
+    next_stow=os.listdir("/home/" + user + "/dotfiles/" + dotfil)
+    # remove any files that will conflict with stow
+    for stow_fil in next_stow:
+      subprocess.call(["rm", "/home/" + user + "/" + stow_fil])
+    subprocess.call(["stow", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+
+#close open files
+FNULL.close()
