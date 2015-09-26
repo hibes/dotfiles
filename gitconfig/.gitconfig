@@ -3,3 +3,5 @@
 	name = Kevin Johnston
 [push]
 	default = current
+[alias]
+	co = checkout

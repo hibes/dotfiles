@@ -53,9 +53,9 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -lF'
-alias la='ls -A'
-alias l='ls -CF'
+#alias ll='ls -lF'
+#alias la='ls -A'
+#alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -80,6 +80,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
 #### BASH FUNCTIONS
 pathadd() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
@@ -91,6 +92,10 @@ pathadd() {
 cat /home/kevin/.TODO
 
 
+#### Call login scripts ###
+. /opt/scripts/acd_func.sh # use great cd script
+cat /home/kevin/.TODO
+
 #####Stay in a tmux session if at all possible
 if which tmux 2>&1 >/dev/null 
 then
@@ -101,19 +106,11 @@ fi
 ### Add opt programs to path
 pathadd /opt/bin/ #create symlinks to other opt executables here
 pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
-#PATH=$PATH:/opt/scripts/ # put generic one-off scripts here, add everything to the path
 
-#Virt notes
-#start dev machine
-#sudo virsh start guest
+set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
+stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 
-#view dev machine
-#sudo virt-viewer dev
+if [ -d /opt/git-radar ]; then
+  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
+fi
 
-#stop dev machine
-#sudo virsh shutdown dev 
-
-#force stop dev machine
-#sudo virsh destroy dev
-
-set -o ignoreeof
