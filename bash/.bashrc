@@ -117,3 +117,8 @@ if [ -d /opt/git-radar ]; then
   export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
 fi
 
+### ADD OPT PROGRAMS TO PATH
+pathadd /opt/bin/ #create symlinks to other opt executables here
+pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
+
+set -o ignoreeof
