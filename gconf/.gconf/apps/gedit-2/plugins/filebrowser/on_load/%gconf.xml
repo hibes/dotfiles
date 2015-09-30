@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="virtual_root" mtime="1441516729" type="string">
+		<stringvalue>file:///media/kevin/64C8FFF2C8FFBFFA/Java/some-jre</stringvalue>
+	</entry>
+	<entry name="root" mtime="1441516729" type="string">
+		<stringvalue>file:///</stringvalue>
+	</entry>
+	<entry name="tree_view" mtime="1441516729" type="bool" value="true"/>
+</gconf>

@@ -53,9 +53,15 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
+<<<<<<< HEAD
+alias ll='ls -lF'
+alias la='ls -A'
+alias l='ls -CF'
+=======
 #alias ll='ls -lF'
 #alias la='ls -A'
 #alias l='ls -CF'
+>>>>>>> master
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -102,6 +108,19 @@ fi
 ### Add opt programs to path
 pathadd /opt/bin/ #create symlinks to other opt executables here
 pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
+
+#Virt notes
+#start dev machine
+#sudo virsh start guest
+
+#view dev machine
+#sudo virt-viewer dev
+
+#stop dev machine
+#sudo virsh shutdown dev 
+
+#force stop dev machine
+#sudo virsh destroy dev
 
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
