@@ -53,9 +53,9 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -lF'
-alias la='ls -A'
-alias l='ls -CF'
+#alias ll='ls -lF'
+#alias la='ls -A'
+#alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -89,7 +89,7 @@ pathadd() {
 }
 
 #### Call login scripts ###
-. /opt/scripts/acd_func.sh
+. /opt/scripts/acd_func.sh # use great cd script
 cat /home/kevin/.TODO
 
 #####Stay in a tmux session if at all possible
@@ -112,3 +112,8 @@ function cdev-test {
 
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
+
+if [ -d /opt/git-radar ]; then
+  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
+fi
+

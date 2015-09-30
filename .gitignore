@@ -15,6 +15,7 @@ ICEauthority/*
 
 *.log
 
+dbus/*
 vim/*
 !vim/.vimrc
 
