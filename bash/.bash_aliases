@@ -1,0 +1,7 @@
+alias grep="grep --color=always"
+alias la="ls -Al"
+alias l="ls -l"
+alias ll="ls -altr"
+alias vi="ec"
+alias vim="ec"
+alias gvim="ec"
