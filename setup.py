@@ -50,10 +50,6 @@ for mach in all_machines:
 if this_machine == {}:
   this_machine = default
 
-def remove_existing(fname):
-  if os.path.isfile(fname):
-    os.remove(fname)
-
 #for each dotfile to be setup with this machine...
 for dotfil in this_machine['dot']:
   #...and each user that needs to be setup...
