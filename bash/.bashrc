@@ -114,6 +114,6 @@ set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 
 if [ -d /opt/git-radar ]; then
-  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash):"|cut -c2-; fi)'
+  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash): "|cut -c2-; fi)'
 fi
 
