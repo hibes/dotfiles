@@ -87,13 +87,6 @@ pathadd() {
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
-<<<<<<< HEAD
-#### Call login scripts ###
-. /opt/scripts/acd_func.sh
-cat /home/kevin/.TODO
-
-=======
->>>>>>> 0e67e33a6f253e549c36e6d3e6f723943b639e76
 
 #### Call login scripts ###
 . /opt/scripts/acd_func.sh # use great cd script
