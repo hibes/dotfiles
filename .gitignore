@@ -14,6 +14,9 @@ face/*
 ICEauthority/*
 dbus/*
 
+*.log
+
+dbus/*
 vim/*
 !vim/.vimrc
 
@@ -27,5 +30,9 @@ kde/.kde/tmp-*
 kde/.kde/cache-*
 kde/.kde/socket-*
 kde/.kde/share/apps/korganizer
+kde/.kde/share/config/kconf_updaterc
 
 TODO/.TODO
+updateInfoAdded=true
+
+

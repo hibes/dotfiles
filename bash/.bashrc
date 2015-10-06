@@ -87,10 +87,13 @@ pathadd() {
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
+<<<<<<< HEAD
 #### Call login scripts ###
 . /opt/scripts/acd_func.sh
 cat /home/kevin/.TODO
 
+=======
+>>>>>>> 0e67e33a6f253e549c36e6d3e6f723943b639e76
 
 #### Call login scripts ###
 . /opt/scripts/acd_func.sh # use great cd script
@@ -103,9 +106,16 @@ then
     test -z ${TMUX} && tmux
 fi
 
-### Add opt programs to path
+### ADD OPT PROGRAMS TO PATH
 pathadd /opt/bin/ #create symlinks to other opt executables here
 pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
+pathadd /sbin/
+
+function cdev-test {
+  NUM="${1:-1}"
+  sudo ~/vm-prog/dockerfiles/developer/docker-run.sh $NUM 10$NUM22
+  ssh admin@localhost -X -p10$NUM22
+}
 
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)

@@ -1,2 +1,2 @@
 [$Version]
-update_info=kdeui.upd:kde4/migrate_from_kde3_icon_theme,kded.upd:kde3.0
+update_info=kded.upd:kde3.0,kdeui.upd:kde4/migrate_from_kde3_icon_theme
