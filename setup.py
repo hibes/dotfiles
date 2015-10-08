@@ -24,6 +24,7 @@ default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome
 dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 #docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig'))
+AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig'))
 
 ##################################################
 ################# SETUP LOGIC ####################
@@ -34,11 +35,11 @@ FNULL = open(os.devnull, 'w')
 
 hostname=''
 #check if this is running in a docker environment (because they have dynamic hostnames)
-if os.path.isfile("/.dockerenv"): 
+if os.path.isfile("/.dockerenv"):
   fil=open("/root/hostname", "r")
   hostname=''.join(fil.read().split()) #read file, removing whitespaces
   fil.close()
-else:    
+else:
   hostname=os.uname()[1]
 
 this_machine={}
@@ -54,12 +55,12 @@ if this_machine == {}:
 for dotfil in this_machine['dot']:
   #...and each user that needs to be setup...
   for user in sys.argv[1:]:
-    #...call stow 
+    #...call stow
     # get list of files to be stowed
     next_stow=os.listdir("/home/" + user + "/dotfiles/" + dotfil)
     # remove any files that will conflict with stow
     for stow_fil in next_stow:
-      subprocess.call(["rm", "/home/" + user + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+      subprocess.call(["rm", "-rf", "/home/" + user + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
     subprocess.call(["stow", "-R", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
 #close open files
