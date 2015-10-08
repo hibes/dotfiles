@@ -1,0 +1,31 @@
+#!/bin/bash
+# Copy this to ~/.bash_completion or /etc/bash_completion.d/repos-tools
+# to have it sourced from /etc/bash_completion
+
+##have adi && {
+#_adi() {
+#    local WORDS="wiki was-8-5-dm was-8-5"#"build diff list log pull push status do"
+#   	local REPSPEC=""#"all this git: svn: bzr: hg:"
+#    local cur prev
+#
+#    COMPREPLY=()
+#    cur=`_get_cword`
+#    prev=${COMP_WORDS[COMP_CWORD-1]}
+#
+#	[ "${REPSPEC/$prev/}" == "$REPSPEC" ] || return
+#	[ "${WORDS/$prev/}" == "$WORDS" ] || WORDS="$REPSPEC"
+#
+#    COMPREPLY=( $( compgen -W "$WORDS" -- "$cur" ) )
+#}
+#complete -F _adi adi
+##}
+
+_adi()
+{
+  cur=${COMP_WORDS[COMP_CWORD]}
+  case "${cur}" in
+      *) use="wiki-start was-8.5-start was-8.5-dm-start wiki-stop was-8.5-stop was-8.5-dm-stop CQS-install CQS-configure svn-ignore";;
+  esac
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o default -o nospace -F _adi adi

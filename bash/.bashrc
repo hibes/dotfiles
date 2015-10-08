@@ -80,6 +80,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+#load completions
+for f in ~/.bash_completion.d/*; do . $f; done
 
 #### BASH FUNCTIONS
 pathadd() {
@@ -119,6 +121,7 @@ pathadd /sbin/
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 
+#Use git radar if available
 if [ -d /opt/git-radar ]; then
   export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash): "|cut -c2-; fi)'
 fi
