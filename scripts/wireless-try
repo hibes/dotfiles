@@ -1,0 +1,6 @@
+#!/bin/bash
+#iwlist wlan0 s
+ifconfig wlan0 down
+ifconfig wlan0 up
+iwconfig wlan0 essid DominicanJoe
+dhclient

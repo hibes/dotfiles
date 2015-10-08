@@ -1,0 +1,9 @@
+#!/bin/bash
+  SPEC=${1:-} #special jython if any
+  if [ "$SPEC" = "was8.5" ]; then
+    echo "Using Was 8.5 jython"
+    $(cygpath -u "$WAS_8_5_HOME")/java/jre/bin/java.exe -classpath "$CLASSPATH;$(cygpath -u $WAS_8_5_HOME)/**/*.jar" -jar "$WAS_8_5_HOME"/optionalLibraries/jython/jython.jar
+  else
+    echo "Using default jython"
+    $(cygpath -u "$JAVA_HOME")/jre/bin/java.exe -jar $JYTHON_HOME/jython.jar
+  fi
