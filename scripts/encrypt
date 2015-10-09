@@ -1,0 +1,23 @@
+#!/bin/bash
+# crypten - a script to encrypt files using openssl
+
+FNAME=$1
+
+if [[ -z "$FNAME" ]]; then
+    echo "crypten <name of file>"
+    echo "  - crypten is a script to encrypt files using des3"
+    exit;
+fi
+
+openssl des3 -salt -in "$FNAME" -out "$FNAME.des3"
+
+#from https://www.voltage.com/security/is-triple-des-not-secure-enough/
+#I've had a number of discussions about Triple-DES recently. Some people are saying that it's not secure enough to use to protect sensitive information. When I hear this, I always ask them to explain why they think this is the case, and their thoughts on this always seems to be a misperception or misunderstanding of some sort.
+#
+#The fact that the DES algorithm was retired (PDF) a few years ago because it was considered too weak to use seems to have tainted the term "DES," and people who don't worry about the arcane details of encryption on a regular basis (and that's almost all of the world) seem to confuse DES being fairly weak with Triple-DES being fairly weak. But it's not. Even the ultra-conservative cryptographers at NIST say that Triple-DES is secure enough to use for almost 30 more years.
+#
+#Three-key Triple-DES provides 112 bits of cryptographic strength. That's a lot more strength than DES provides. It's actually stronger by a factor of 256.  That's 72,057,594,037,927,936, or over 72 quadrillion.
+#
+#It's possible to buy a special-purpose machine today that can try all 256 possible DES keys in a few hours. Let's assume that we have a machine that's even more powerful than that. Let's assume that we have one that's so powerful that it can crack DES in a single minute. If we have a machine that can crack keys that quickly, it will still take about 260,658 years to crack a Triple-DES key. That's not as impressive as the billions or trillions of years that it would take to crack an AES key, but it's still good enough to protect your sensitive information.
+#
+#So don't let people tell you that Triple-DES isn't secure enough. It's definitely strong enough to protect all but the most sensitive information. If you're a national government trying to protect your most sensitive diplomatic and military secrets from other national governments you might worry about Triple-DES being secure enough, but for the rest of us, it's just fine.

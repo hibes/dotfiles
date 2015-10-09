@@ -1,0 +1,32 @@
+#!/usr/bin/python
+import sys
+
+#create graph containing machines, and a list of what they can directly connect to
+#machines are nodes the list is the nodes that they share an edge with
+ssh_graph = {'wintermute': [('aurora', 'ssh -X 192.168.100.10')],
+	 'aurora': [('developer', 'docker-connect.sh developer'), 
+			('dev.glassfish', 'docker-connect.sh dev.glassfish'), 
+			('wintermute', 'ssh -X 192.168.100.1')],
+	 'developer': [('aurora', 'ssh -X kevin@192.168.1.1')],
+	 'dev.glassfish': [('aurora', 'ssh -X kevin@192.168.1.1')]}
+
+#Returns the path between two machines as a list (inclusive of start/end machines) or None
+def find_path(graph, start, end, path=[], max=10):
+    path = path + [start]
+    if isinstance(start, (list, tuple)):
+        start=start[0]
+    if start == end:
+        return path
+    if not graph.has_key(start):
+        return None
+    for node in graph[start]:
+        if max > 0 and node[0] not in [path[0]] + [i[0] for i in path[1:]]:
+            newpath = find_path(graph, node, end, path, max - 1)
+            if newpath: return newpath
+    return None
+
+print find_path(ssh_graph, sys.argv[1], sys.argv[2])
+
+#References
+#ssh hopping: http://unix.stackexchange.com/questions/89428/ssh-twice-in-bash-alias-function
+#python ssh ugliness (avoid!): https://gist.github.com/bortzmeyer/1284249

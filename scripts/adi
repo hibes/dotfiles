@@ -1,0 +1,60 @@
+case "$1" in
+    wiki-start)
+        echo Starting wiki
+        /cygdrive/c/Setup/Apache-Software-Foundation/apache-tomcat-8.0.21-windows-x64/apache-tomcat-8.0.21/bin/startup.sh
+        ;;
+    wiki-stop)
+        echo Stopping wiki
+        /cygdrive/c/Setup/Apache-Software-Foundation/apache-tomcat-8.0.21-windows-x64/apache-tomcat-8.0.21/bin/shutdown.sh
+        ;;
+    was-8.5-start)
+        echo Starting WAS8.5
+        $(cygpath -u $WAS_8_5_HOME)/bin/startServer.bat server1
+        ;;
+    was-8.5-stop)
+        echo Stopping WAS8.5
+        $(cygpath -u $WAS_8_5_HOME)/bin/stopServer.bat server1
+        ;;
+    was-8.5-dm-start)
+        echo Starting WAS8.5 DM
+        $(cygpath -u $WAS_8_5_HOME)/bin/startServer.bat -profileName localManager adminagent
+        ;;
+    was-8.5-dm-stop)
+        echo Stopping WAS8.5 DM
+        $(cygpath -u $WAS_8_5_HOME)/bin/stopServer.bat -profileName localManager adminagent
+        ;;
+    CQS-install)
+        echo Installing CQS...
+        $(cygpath -u "$ECLIPSE_WORKSPACE")/CQS_meta/script/callJython4App.sh
+        echo done
+        ;;
+    CQS-configure)
+        echo Configuring CQS...
+        $(cygpath -u "$ECLIPSE_WORKSPACE")/CQS_meta/script/callJython4Resources.sh
+        echo done
+        ;;
+    svn-ignore)
+        echo Running default svn ignore for current directory
+        svn propset --recursive svn:ignore ".settings
+*.launch
+.target
+bin
+*-log*
+*.class
+.metadata" .
+        #specifically do not ignore these files per http://wiki.eclipse.org/FAQ_How_do_I_set_up_a_Java_project_to_share_in_a_repository%3F
+        #svn propset svn:ignore ".project" ./
+        #svn propset svn:ignore ".classpath" ./
+
+        #delete any files that may have accidentally been tracked
+        svn delete ".settings" .
+        svn delete "*.launch" .
+        svn delete ".target" .
+        svn delete "bin" .
+        svn delete "*-log*" .
+        svn delete "*.class" .
+        svn delete ".metadata" .
+        ;;
+    *)
+        echo Command not found
+esac

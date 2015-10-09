@@ -1,0 +1,22 @@
+#!/bin/bash
+pid=$$
+while true; do
+    if [ -n "$CYGWIN" ] ; then
+        case $(ps -p $pid | tail -n 1 | cut -c 65-) in
+            (/usr/bin/bash) echo "mintty";return;;
+            (/usr/bin/sh) echo "conEmu";return;;
+        esac
+        [[ $(echo $pid) == 1 ]] && break
+        pid=$(ps -p $pid | tail -n 1 | cut -c 10-17 2>/dev/null)
+    else
+        pid=$(ps -h -o ppid -p $pid 2>/dev/null)
+        case $(ps -h -o comm -p $pid 2>/dev/null) in
+            (konsole) echo "konsole";return;;
+            (gnome-terminal) echo "gnome";return;;
+            (xterm) echo "xterm";return;;
+            (rxvt) echo "rxvt";return;;
+            (python) if [ ! -z "$(ps -h -o args -p $pid 2>/dev/null | grep guake)" ]; then echo "Guake"; return; fi ;;
+        esac
+        [[ $(echo $pid) == 1 ]] && break
+    fi
+done

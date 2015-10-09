@@ -1,0 +1,28 @@
+#!/bin/bash
+#open a folder checking for various folder programs
+#xfce
+if which thunar >/dev/null 2>&1; then
+   thunar "${1:-.}" >/dev/null 2>&1 &
+fi
+
+#mint mate
+if which mate >/dev/null 2>&1; then
+   mate "${1:-.}" >/dev/null 2>&1 &
+fi
+
+#kde
+if which dolphin >/dev/null 2>&1; then
+   dolphin "${1:-.}" >/dev/null 2>&1 &
+fi
+
+#gnome
+if which nautilus >/dev/null 2>&1; then
+   nautilus "${1:-.}" >/dev/null 2>&1 &
+fi
+
+
+#cygwin
+uname="$(uname -a)"
+if ! [ "${uname/CYGWIN}" = "$(uname -a)" ] ; then
+   /bin/cygstart --explore "${1:-.}"
+fi
