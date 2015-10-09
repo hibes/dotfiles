@@ -90,9 +90,9 @@ pathadd() {
     fi
 }
 
+############################# CYGWIN FIX ##############################
 uname="$(uname -a)"
 if ! [ "${uname/CYGWIN}" = "$(uname -a)" ] ; then
-    ############################# CYGWIN FIX ##############################
     export CYGWIN="winsymlinks:native"
 fi
 
@@ -101,10 +101,10 @@ fi
 cat /home/kevin/.TODO
 
 #####Stay in a tmux session if at all possible
-if which tmux >/dev/null 2>&1
+if [ which tmux >/dev/null 2>&1 ] && ! [ container = "ConEmu" ]
 then
     # start a new session if not already in one
-    test -z ${TMUX} && tmux
+    test -z ${TMUX} && tmux > /dev/null 2>&1
 fi
 
 ### ADD OPT PROGRAMS TO PATH
@@ -121,7 +121,7 @@ pathadd /sbin/
 set -o ignoreeof #Remove the "ctrl-d exits terminal" feature
 stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 
-#Use git radar if available
-if [ -d /opt/git-radar ]; then
-  export PS1=$PS1'$(if [[ ! -z $(git-radar --bash) ]]; then echo "$(git-radar --bash): "|cut -c2-; fi)'
+#Use git radar if available, and not in cygwin
+if [ -d /opt/git-radar ] && [ -z "$CYGWIN" ]; then #runs far to slow in cygwin to be useful
+  export PS1=$PS1'$(if [[ -n $(git-radar --bash) ]]; then echo "$(git-radar --bash): "|cut -c2-; fi)'
 fi
