@@ -2,10 +2,12 @@
 
 #from http://www.stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 
-SOURCE="${BASH_SOURCE[0]}";
+#SOURCE="${BASH_SOURCE[0]}";
+SOURCE="${1:-.}";
+ORIG_SOURCE=$SOURCE
 while [ -h "$SOURCE" ]; do 
 # resolve until no longer a symlink
-DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 SOURCE="$(readlink "$SOURCE")" 
 [[ $SOURCE != /* ]] && 
 SOURCE="$DIR/$SOURCE" 
@@ -13,6 +15,6 @@ done
 TRUE_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)" 
 echo "True directory: $TRUE_DIR (follows symlinks)"
 
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "$ORIG_SOURCE")" && pwd)
 echo Fake directory: $DIR
 
