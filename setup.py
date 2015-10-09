@@ -22,6 +22,7 @@ def defineMachine(hostname, dotfilesList):
 default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux'))
 default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 
+dev=defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 #docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig'))
