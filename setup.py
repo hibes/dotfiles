@@ -24,7 +24,7 @@ default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome
 dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 #docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig'))
-AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig'))
+AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux'))
 
 ##################################################
 ################# SETUP LOGIC ####################
