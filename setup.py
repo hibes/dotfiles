@@ -19,14 +19,15 @@ def defineMachine(hostname, dotfilesList):
   all_machines.append(new_machine)
   return new_machine
 
-default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux'))
-default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux', 'scripts'))
+default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
 
-dev=defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
-dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+dev=defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+dev=defineMachine('wintermute', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
 #docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
-docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig'))
-AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux'))
+docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig', 'scripts'))
+AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux', 'scripts'))
 
 ##################################################
 ################# SETUP LOGIC ####################
@@ -63,10 +64,16 @@ for dotfil in this_machine['dot']:
     #...call stow
     # get list of files to be stowed
     next_stow=os.listdir("/home/" + user + "/dotfiles/" + dotfil)
-    # remove any files that will conflict with stow
-    for stow_fil in next_stow:
-      subprocess.call(["rm", "-rf", "/home/" + user + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
-    subprocess.call(["stow", "-R", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+    #handle scripts folder specially
+    if dotfil == "scripts":
+      for stow_fil in next_stow:
+        subprocess.call(["cp", "/home/" + user + "/dotfiles/scripts/" + stow_fil, "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+        subprocess.call(["chmod", "+x", "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+    else:
+      # remove any files that will conflict with stow
+      for stow_fil in next_stow:
+        subprocess.call(["rm", "-rf", "/home/" + user + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+      subprocess.call(["stow", "-R", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
 #close open files
 FNULL.close()
