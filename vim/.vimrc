@@ -11,3 +11,7 @@ set expandtab
 set ignorecase
 set smartcase
 syntax on
+
+" get rid of annoying backup files
+set nobackup
+set noswapfile
