@@ -1,13 +1,18 @@
 #!/bin/bash
 #open a folder checking for various folder programs
-#xfce
-if which thunar >/dev/null 2>&1; then
-   thunar "${1:-.}" >/dev/null 2>&1 &
+#mint cinnamon 
+if which nemo >/dev/null 2>&1; then
+   nemo "${1:-.}" >/dev/null 2>&1 &
 fi
 
 #mint mate
 if which mate >/dev/null 2>&1; then
    mate "${1:-.}" >/dev/null 2>&1 &
+fi
+
+#xfce
+if which thunar >/dev/null 2>&1; then
+   thunar "${1:-.}" >/dev/null 2>&1 &
 fi
 
 #kde
@@ -19,7 +24,6 @@ fi
 if which nautilus >/dev/null 2>&1; then
    nautilus "${1:-.}" >/dev/null 2>&1 &
 fi
-
 
 #cygwin
 uname="$(uname -a)"
