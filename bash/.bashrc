@@ -101,7 +101,7 @@ fi
 cat /home/kevin/.TODO
 
 #####Stay in a tmux session if at all possible
-if [ which tmux >/dev/null 2>&1 ] && ! [ container = "ConEmu" ]
+if [ -n "$(which tmux 2>/dev/null)" ] && [ container != "ConEmu" ]
 then
     # start a new session if not already in one
     test -z ${TMUX} && tmux > /dev/null 2>&1

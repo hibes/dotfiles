@@ -19,7 +19,8 @@ def defineMachine(hostname, dotfilesList):
   all_machines.append(new_machine)
   return new_machine
 
-default=defineMachine('unknown', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux'))
+default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 
 dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
 #docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
@@ -47,9 +48,12 @@ for mach in all_machines:
   if (mach['hn'] == hostname):
     this_machine = mach
 
-#this machine isn't defined, use default setup
+#this machine isn't defined, use default setup, try to detect os
 if this_machine == {}:
-  this_machine = default
+  if "CYGWIN" in os.uname()[0]:
+    this_machine = default_win
+  else:
+    this_machine = default_nix
 
 #for each dotfile to be setup with this machine...
 for dotfil in this_machine['dot']:
