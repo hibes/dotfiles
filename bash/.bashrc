@@ -97,7 +97,7 @@ if ! [ "${uname/CYGWIN}" = "$(uname -a)" ] ; then
 fi
 
 #### Call login scripts ###
-. /opt/scripts/acd_func.sh # use great cd script
+. /opt/scripts/acd_func # use great cd script
 cat /home/kevin/.TODO
 
 #####Stay in a tmux session if at all possible
