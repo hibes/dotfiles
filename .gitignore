@@ -19,6 +19,8 @@ dbus/*
 dbus/*
 vim/*
 !vim/.vimrc
+!vim/.vim
+!vim/.vim/colors
 
 bash/.bash_history
 vim/.viminfo
