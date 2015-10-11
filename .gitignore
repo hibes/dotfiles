@@ -13,6 +13,9 @@ dmrc/*
 face/*
 ICEauthority/*
 dbus/*
+nv/*
+
+**/*.bin
 
 *.log
 
@@ -41,3 +44,4 @@ updateInfoAdded=true
 
 \#*#
 emacs/.emacs.d/auto-save-list/*
+**/.\#*
