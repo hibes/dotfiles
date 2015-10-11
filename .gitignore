@@ -45,3 +45,4 @@ updateInfoAdded=true
 \#*#
 emacs/.emacs.d/auto-save-list/*
 **/.\#*
+**/*~
