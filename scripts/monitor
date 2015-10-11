@@ -1,15 +1,17 @@
 #!/bin/sh
+if [ "$(tmux ls | grep monitor | wc -l)" -eq 0 ] ; then
+    #create new monitor session
+    tmux new-session -d -s monitor 'exec htop'
+    tmux rename-window 'Monitor'
+    tmux select-window -t monitor:0
+    tmux split-window -v -t 0 'while true; do if [ -e "/var/mail/$USER" ]; then tail -f "/var/mail/$USER"; else echo "no mail in /var/mail/$USER"; sleep 1; clear; fi; done'
+    tmux split-window -h -t 1 'while true; do df -h; sleep 1; clear; done'
+    tmux split-window -v -t 2 'while true; do echo -e "VMs: \n"; virsh list; sleep 1; clear; done'
 
-tmux new-session -d -s foo 'exec htop'
-tmux send-keys 'bundle exec thin start' 'C-m'
-tmux rename-window 'Foo'
-tmux select-window -t foo:0
-tmux split-window -h 'exec powertop'
-tmux send-keys 'bundle exec compass watch' 'C-m'
-tmux split-window -v -t 0 'exec apachetop'
-tmux send-keys 'rake ts:start' 'C-m'
-tmux split-window -v -t 1 'exec cmatrix'
-tmux -2 attach-session -t foo
+
+fi
+    #attach to running monitor session
+    tmux -2 attach-session -t monitor
 
 
 #see
