@@ -41,7 +41,25 @@ case "$1" in
 bin
 *-log*
 *.class
-.metadata" .
+.metadata
+tmp
+*.tmp
+*.pydevproject
+.gradle
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.project
+.externalToolBuilders
+.cproject
+.classpath
+.factorypath
+.buildpath
+.target
+.texlipse
+" .
         #specifically do not ignore these files per http://wiki.eclipse.org/FAQ_How_do_I_set_up_a_Java_project_to_share_in_a_repository%3F
         #svn propset svn:ignore ".project" ./
         #svn propset svn:ignore ".classpath" ./
