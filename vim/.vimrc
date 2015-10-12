@@ -11,3 +11,10 @@ set expandtab
 set ignorecase
 set smartcase
 syntax on
+
+" get rid of annoying backup files
+set nobackup
+set noswapfile
+
+" try to force 256 colors
+set t_Co=256
