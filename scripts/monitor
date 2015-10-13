@@ -12,6 +12,7 @@ else
         tmux split-window -h -t monitor:0.1 'while true; do df -h; sleep 1; clear; done'
         tmux split-window -v -t monitor:0.2 'while true; do echo -e "VMs: \n"; virsh list; sleep 1; clear; done'
     fi
+    tmux select-pane -t monitor:0.0
     #attach to running monitor session
     tmux -2 attach-session -t monitor
 fi
