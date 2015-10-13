@@ -1,0 +1,68 @@
+#!/bin/bash
+# Copy this to ~/.bash_completion or /etc/bash_completion.d/repos-tools
+# to have it sourced from /etc/bash_completion
+
+##have adi && {
+#_adi() {
+#    local WORDS="wiki was-8-5-dm was-8-5"#"build diff list log pull push status do"
+#   	local REPSPEC=""#"all this git: svn: bzr: hg:"
+#    local cur prev
+#
+#    COMPREPLY=()
+#    cur=`_get_cword`
+#    prev=${COMP_WORDS[COMP_CWORD-1]}
+#
+#	[ "${REPSPEC/$prev/}" == "$REPSPEC" ] || return
+#	[ "${WORDS/$prev/}" == "$WORDS" ] || WORDS="$REPSPEC"
+#
+#    COMPREPLY=( $( compgen -W "$WORDS" -- "$cur" ) )
+#}
+#complete -F _adi adi
+##}
+complete -r test
+
+toggle=0
+_test()
+{
+  cur=${COMP_WORDS[COMP_CWORD]}
+  words=
+  for i in "${COMP_WORDS[@]}"
+  do
+      :
+      words="$words $i"
+      count=$(($count + 1))
+ #     echo WORDS: $words
+  done
+
+  count=0
+  for i in "${COMPREPLY[@]}"
+  do
+      :
+      ${COMPREPLY[$count]} ="$words$i"
+
+      count=$(($count + 1))
+#    res=$(echo ${res}" $i" | tr '\n' ' ')
+#    echo next is: "$i"
+  done
+#  echo Cur is: $cur
+#  if [ $toggle -eq 1 ]; then
+##      complete -r adi
+#      echo -ne "\033[0;31m"
+#  else
+#      echo -ne "\033[0m"
+##      complete -o default -o nospace -F _adi adi
+#  fi
+  [ "$toggle" -eq 0 ] && toggle=1 || toggle=0;
+}
+complete -o default -o nospace -F _test test
+
+
+
+
+#need to get the entire current line
+#!#need to parse line with getopt to figure out where options and arguments lie
+#need to parse command with custom parser to figure out what options/arguments have been defined
+##this will have to handle things like 2>/dev/null, unclosed quotes, etc
+#need to compare parsed arguments with json config of command if existing
+#need to create array of possible completions, set compreply (or custom echo with colors) and exit
+#need to parse json config

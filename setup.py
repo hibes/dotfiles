@@ -19,15 +19,15 @@ def defineMachine(hostname, dotfilesList):
   all_machines.append(new_machine)
   return new_machine
 
-default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux', 'scripts'))
-default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts'))
+default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
 
-dev=defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
-dev=defineMachine('wintermute', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
-dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
-#docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'gitconfig', 'gnome2', 'profile', 'selected_editor', 'tmux'))
-docker_dev=defineMachine('developer', ('ssh', 'bash', 'gitconfig', 'scripts'))
-AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'gitconfig', 'tmux', 'scripts'))
+dev=defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+dev=defineMachine('wintermute', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+dev=defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+#docker_dev=defineMachine('developer', ('ssh', 'bash', 'vim', 'emacs', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux'))
+docker_dev=defineMachine('developer', ('ssh', 'bash', 'git', 'scripts'))
+AE=defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts'))
 
 ##################################################
 ################# SETUP LOGIC ####################
