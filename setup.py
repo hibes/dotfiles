@@ -66,6 +66,8 @@ for dotfil in this_machine['dot']:
     next_stow=os.listdir("/home/" + user + "/dotfiles/" + dotfil)
     #handle scripts folder specially
     if dotfil == "scripts":
+      subprocess.call(["mkdir", "-p", "/opt/bin"])
+      subprocess.call(["mkdir", "-p", "/opt/scripts"])
       for stow_fil in next_stow:
         subprocess.call(["cp", "/home/" + user + "/dotfiles/scripts/" + stow_fil, "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
         subprocess.call(["chmod", "+x", "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
