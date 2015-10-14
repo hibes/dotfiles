@@ -125,3 +125,7 @@ stty -ixon #Remove the "ctrl-s causes halt" feature(!?)
 if [ -d /opt/git-radar ] && [ -z "$CYGWIN" ]; then #runs far to slow in cygwin to be useful
   export PS1=$PS1'$(if [[ -n $(git-radar --bash) ]]; then echo "$(git-radar --bash): "|cut -c2-; fi)'
 fi
+
+#force 256 colors, note this is a bad idea
+export TERM=xterm-256color
+export EDITOR=ec

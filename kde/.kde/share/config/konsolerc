@@ -5,7 +5,7 @@ update_info=konsole.upd:2.9.0-global-options
 DefaultProfile=Shell.profile
 
 [Favorite Profiles]
-Favorites=Shell.profile
+Favorites=
 
 [KonsoleWindow]
 SaveGeometryOnExit=false

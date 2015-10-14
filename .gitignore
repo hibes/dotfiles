@@ -13,18 +13,25 @@ dmrc/*
 face/*
 ICEauthority/*
 dbus/*
+nv/*
+
+**/*.bin
 
 *.log
 
 dbus/*
 vim/*
+vim/.vim/*
 !vim/.vimrc
+!vim/.vim
+!vim/.vim/colors
 
 bash/.bash_history
 vim/.viminfo
 X/.Xauthority
 X/.xsession-errors
 ssh/.ssh/id_rsa
+ssh/.ssh/known_hosts
 cinnamon/.cinnamon/spices.cache
 kde/.kde/tmp-*
 kde/.kde/cache-*
@@ -35,4 +42,7 @@ kde/.kde/share/config/kconf_updaterc
 TODO/.TODO
 updateInfoAdded=true
 
-
+\#*#
+emacs/.emacs.d/auto-save-list/*
+**/.\#*
+**/*~

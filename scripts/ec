@@ -4,5 +4,5 @@ uname="$(uname -a)"
 if ! [ "${uname/CYGWIN}" = "$(uname -a)" ] ; then
   emacsclient "$(cygpath -aw $1)" &
 else
-  emacsclient "$1" &
+  emacsclient -c "$@" &
 fi
