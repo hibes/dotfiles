@@ -1,2 +1,19 @@
 #!/bin/bash
-. ~/.bashrc
+echo Reloading bash files
+. $HOME/.bashrc
+. $HOME/.bash_aliases
+if [ -e "$HOME/.bash_completion" ] && [ -f "~/.bash_completion" ] ; then
+  . $HOME/.bash_completion
+fi
+if [ -e "$HOME/.bash_completion.d" ] && [ -d "~/.bash_completion.d" ] ; then
+  . $HOME/.bash_completion.d/*
+fi
+
+if [ -e "$HOME/programming/dotfiles" ] ; then
+  echo Reloading dotfiles from "$HOME/programming/dotfiles"
+  cp -R $HOME/programming/dotfiles/* ~/dotfiles
+  rm -rf $HOME/dotfiles/.git*
+fi
+
+echo Reloading /opt/scripts from "$HOME/dotfiles/scripts"
+cp $HOME/dotfiles/scripts/* /opt/scripts
