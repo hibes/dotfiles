@@ -4,7 +4,7 @@ while true; do
     if [ -n "$CYGWIN" ] ; then
         case $(ps -p $pid | tail -n 1 | cut -c 65-) in
             (/usr/bin/bash) echo "mintty";return;;
-            (/usr/bin/sh) echo "conEmu";return;;
+            (/usr/bin/sh) echo "conemu";return;;
         esac
         [[ $(echo $pid) == 1 ]] && break
         pid=$(ps -p $pid | tail -n 1 | cut -c 10-17 2>/dev/null)
