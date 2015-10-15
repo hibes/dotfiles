@@ -1,4 +1,12 @@
 #!/bin/bash
 git pull "$@"
 git submodule sync
+ORIG_PWD=$PWD
+
+fil_array=() #get an array of gitmodule files
+while IFS=  read -r -d $'\0'; 
+  do fil_array+=("$REPLY"); 
+done < <(find . -name "\.gitmodules" -print0)
+
+#don't use this because it puts the submodules in detach head state
 git submodule update --init --recursive "$@"
