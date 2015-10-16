@@ -33,11 +33,38 @@ fil_array_len=${!fil_array[@]}
 
 #Return the branch of the current directory. If any argument is passed in returns the commit id if in detached head state
 getBranch() {
-    CUR_BRANCH="$(git branch | head -n 1 |cut -c 3-)"
-    if [ -n "$1" ] && [ "${CUR_BRANCH/detached from}" != "$CUR_BRANCH" ]; then #handle special detached head case
-        CUR_BRANCH="$(git branch | head -n 1 |cut -c 18-|cut -f1 -d')')"
+    CUR_BRANCH="$(git branch | head -n 1 |cut -d' ' -f 2)"
+    if [ "${CUR_BRANCH/\(detached}" != "$CUR_BRANCH" ]; then #handle special detached head case
+        CUR_BRANCH="$(git branch | grep ^\* | head -n 1 |cut -d' ' -f 4|cut -f1 -d')')"
         DETACHED_HEAD=1
     fi
+}
+
+fixDetachedHead() {
+    local MAX_RECUR=5
+    local RECUR_COUNT=${1:-$MAX_RECUR}
+        if [ "$DETACHED_HEAD" -eq 1 ]; then #handle special detached head case
+
+            if [ "$USE_MASTER" -eq 1 ]; then
+                CHECKOUT=master
+            else
+                echo -e "Submodule '$(dirname $i)/$j' curently in detached head state. Checkout branch or skip?\n  skip [default]\n$(git branch -a)"
+                read CHECKOUT
+            fi
+
+            if [ "$CHECKOUT" != '' ] ; then
+                git checkout "$CHECKOUT"
+                CUR_BRANCH="$(git branch | head -n 1 |cut -d' ' -f 2)"
+
+                if [ "$?" -eq 1 ] && [ $RECUR_COUNT -gt 0 ]; then
+                    #checkout failed for some reason, try again
+                    fixDetachedHead $(($RECUR_COUNT - 1))
+                else
+                    DETACHED_HEAD=0
+                fi
+
+            fi
+        fi
 }
 
 #for each gitmodule file...
@@ -46,6 +73,7 @@ do
     :
     #cd to gitmodule file directory
     cd $(dirname "$i")
+
     #read each submodule location from the .gitmodules file
     sub_array=(); while IFS=  read -r -d $'\n'; do sub_array+=("$REPLY"); done < <(cat ./.gitmodules | grep "path =" | rev|cut -d' ' -f1|rev)
 
@@ -54,39 +82,27 @@ do
     do
         :
         #cd to that submodule and update it
-
         cd "$j"; git fetch
-        #attempt to merge in which ever branch it is currently on
+
+        #determine current branch, and if in a detached head try to checkout a reasonable branch
         CUR_BRANCH= #the current branch
         DETACHED_HEAD=0 #1 if in detached head state, 0 otherwise
-        getBranch 1
+        getBranch #determine the current branch, setting the CUR_BRANCH and DETACHED_HEAD variables
+        fixDetachedHead #if in detached head state prompt user for solution (or default to checkout master branch)
 
-        if [ "$DETACHED_HEAD" -eq 1 ]; then #handle special detached head case
-
-            if [ "$USE_MASTER" -eq 1 ]; then
-                CHECKOUT=master
-            else
-                echo -e "Submodule '$(dirname $i)/$j' curently in detached head state. Checkout branch or skip?\n\tskip [default]\n$(git branch -a)"
-                read CHECKOUT
-            fi
-
-            if [ "$CHECKOUT" != '' ] ; then
-                git checkout "$CHECKOUT"
-                CUR_BRANCH=$(git branch | head -n 1 |cut -c 3-)
-            fi
-        fi
-        if [ -n "$CUR_BRANCH" ] ; then
+        #if on a proper branch, attempt to merge in changes from remote branch
+        if [ "$DETACHED_HEAD" -eq 0 ] ; then
             git merge --no-commit origin/"$CUR_BRANCH" #TODO don't make the assumption remote branch is named origin
 
             #check the return code for a git conflict
             if [ "$?" -eq 0 ]; then
                 git merge
             else
+                #alert user of merge conflict and move on
                 echo git merge conflict updating $(basename "$PWD")
             fi
-
-
         fi
+
         #Return to root of submodule containing repo
         cd "$ORIG_PWD"; cd $(dirname "$i")
 
@@ -97,8 +113,5 @@ do
 
 done
 
-#read its path
-#cd to the submodule
-#update
 #don't use this because it puts the submodules in detach head state
 #git submodule update --init --recursive "$@"
