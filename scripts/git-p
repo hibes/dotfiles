@@ -31,40 +31,46 @@ fil_array_len=${!fil_array[@]}
 
 
 
-#Return the branch of the current directory. If any argument is passed in returns the commit id if in detached head state
+#Return the branch of the current directory, or the commit id if in detached head state
+#Sets CUR_BRANCH and DETACHED_HEAD varaiables
 getBranch() {
     CUR_BRANCH="$(git branch | head -n 1 |cut -d' ' -f 2)"
     if [ "${CUR_BRANCH/\(detached}" != "$CUR_BRANCH" ]; then #handle special detached head case
         CUR_BRANCH="$(git branch | grep ^\* | head -n 1 |cut -d' ' -f 4|cut -f1 -d')')"
         DETACHED_HEAD=1
+    else
+        DETACHED_HEAD=0
     fi
 }
 
+#Detect if on a detached head, if so attempt a fix
 fixDetachedHead() {
     local MAX_RECUR=5
     local RECUR_COUNT=${1:-$MAX_RECUR}
-        if [ "$DETACHED_HEAD" -eq 1 ]; then #handle special detached head case
+    if [ "$DETACHED_HEAD" -eq 1 ]; then #handle special detached head case
 
-            if [ "$USE_MASTER" -eq 1 ]; then
-                CHECKOUT=master
-            else
-                echo -e "Submodule '$(dirname $i)/$j' curently in detached head state. Checkout branch or skip?\n  skip [default]\n$(git branch -a)"
-                read CHECKOUT
-            fi
-
-            if [ "$CHECKOUT" != '' ] ; then
-                git checkout "$CHECKOUT"
-                CUR_BRANCH="$(git branch | head -n 1 |cut -d' ' -f 2)"
-
-                if [ "$?" -eq 1 ] && [ $RECUR_COUNT -gt 0 ]; then
-                    #checkout failed for some reason, try again
-                    fixDetachedHead $(($RECUR_COUNT - 1))
-                else
-                    DETACHED_HEAD=0
-                fi
-
-            fi
+        #get a branch to checkout
+        if [ "$USE_MASTER" -eq 1 ]; then
+            CHECKOUT=master
+        else
+            echo -e "Submodule '$(dirname $i)/$j' curently in detached head state. Checkout branch or skip?\n  skip [default]\n$(git branch -a)"
+            read CHECKOUT
         fi
+
+        if [ "$CHECKOUT" != '' ]; then
+            #checkout new branch
+            git checkout "$CHECKOUT"
+
+            if [ "$?" -eq 1 ] && [ $RECUR_COUNT -gt 0 ]; then
+                #checkout failed for some reason, try again
+                fixDetachedHead $(($RECUR_COUNT - 1))
+            else
+                #detached head state has been fixed, determine the name of the new branch
+                getBranch
+            fi
+
+        fi
+    fi
 }
 
 #for each gitmodule file...
