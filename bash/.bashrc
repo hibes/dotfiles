@@ -131,4 +131,6 @@ export TERM=xterm-256color
 export EDITOR=ec
 
 #load Xmodmap if any
-xmodmap ~/.Xmodmap
+if [ -e "~/.Xmodmap" ] ; then
+  xmodmap ~/.Xmodmap
+fi
