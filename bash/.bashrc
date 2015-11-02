@@ -129,3 +129,6 @@ fi
 #force 256 colors, note this is a bad idea
 export TERM=xterm-256color
 export EDITOR=ec
+
+#load Xmodmap if any
+xmodmap ~/.Xmodmap
