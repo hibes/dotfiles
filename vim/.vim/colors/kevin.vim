@@ -1,7 +1,7 @@
 " local syntax file - set colors on a per-machine basis:
 " vim: tw=0 ts=4 sw=4
 " Vim color file
-" Maintainer:	Ron Aaron <ron@ronware.org>
+" Maintainer:	Kevin Johnston <kevinjohnston512@gmail.com>
 " Last Change:	2003 May 02
 
 set background=dark
@@ -12,7 +12,7 @@ endif
 let g:colors_name = "kevin"
 hi Normal		guifg=cyan			guibg=black
 hi Comment	term=bold		ctermfg=DarkCyan		guifg=#80a0ff
-hi Constant	term=underline	ctermfg=SpringGreen3		guifg=#00aaaa
+hi Constant	term=underline	ctermfg=LightGreen		guifg=#00aaaa
 hi Special	term=bold		ctermfg=DarkMagenta	guifg=Red
 hi Identifier term=underline	cterm=bold			ctermfg=Cyan guifg=#40ffff
 hi Statement term=bold		ctermfg=Yellow gui=bold	guifg=#aa4444
@@ -48,3 +48,6 @@ hi link SpecialChar	Special
 hi link Delimiter	Special
 hi link SpecialComment Special
 hi link Debug		Special
+
+" Fix visual select colors
+hi Visual ctermbg=DarkBlue
