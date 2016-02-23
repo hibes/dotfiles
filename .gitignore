@@ -22,7 +22,7 @@ nv/*
 dbus/*
 vim/*
 vim/.vim/*
-!vim/.vimrc
+!vim/.vimrc*
 !vim/.vim
 !vim/.vim/colors
 

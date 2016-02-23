@@ -18,3 +18,4 @@ set noswapfile
 
 " try to force 256 colors
 set t_Co=256
+colorscheme kevin
