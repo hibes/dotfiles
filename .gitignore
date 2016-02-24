@@ -46,3 +46,7 @@ updateInfoAdded=true
 emacs/.emacs.d/auto-save-list/*
 **/.\#*
 **/*~
+
+#Never ignore hooks
+!*/pre_stow_hook.py
+!*/post_stow_hook.py
