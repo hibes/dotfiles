@@ -1,11 +1,8 @@
 #!/bin/bash
-wget -P "http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.3.7.v20160115.tar.gz&r=1"
-
-JETTY_HOME=${JETTY_HOME:-/opt/jetty-test/jetty-distribution-9.3.7.v20160115/}
-JETTY_BASE=${JETTY_BASE:-kev-test-base/}
-JETTY_MODULES=${JETTY_MODULES:-http,deploy,ssl}
+JETTY_HOME=${JETTY_HOME:-/opt/jetty/}
+JETTY_BASE=${JETTY_BASE:-jetty-base/}
 JETTY_CLEAN_START=${JETTY_CLEAN_START:-1}
-JETTY_COMMON_MODULES=http,deploy,server,security,servlet,ssl,webapp
+JETTY_COMMON_MODULES=http,deploy,logging,server,servlet,webapp
 JETTY_AVAILABLE_MODULES=alpn,annotations,apache-jsp,apache-jstl,cdi,client,debug,debuglog,deploy,ext,fcgi,gcloud-sessions,gzip,hawtio,home-base-warning,http,http2,http2c,https,infinispan,ipaccess,jaas,jamon,jaspi,jdbc-sessions,jminix,jmx,jmx-remote,jndi,jolokia,jsp,jstl,jvm,logging,lowresources,monitor,nosql,plus,protonego-boot,proxy,proxy-protocol,proxy-protocol-ssl,quickstart,requestlog,resources,rewrite,security,server,servlet,servlets,setuid,spring,ssl,stats,webapp,websocket
 JETTY_MODULES=${JETTY_MODULES:-$JETTY_COMMON_MODULES}
 JETTY_HTTP_PORT=${JETTY_HTTP_PORT:=8080}
@@ -14,7 +11,7 @@ mkdir -p "$JETTY_HOME$JETTY_BASE"
 cd "$JETTY_HOME$JETTY_BASE"
 
 if [ "$JETTY_CLEAN_START" -gt "0" ]; then
-  rm -rf ./*
+  rm -rf "$JETTY_HOME$JETTY_BASE"*
 fi
 
 java -jar ${JETTY_HOME}start.jar --add-to-start=$JETTY_MODULES
