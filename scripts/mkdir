@@ -1,0 +1,16 @@
+#!/bin/bash
+/bin/mkdir "$@"
+FOLDER=
+for i in "$@"; do
+    #echo "processing: $i"
+    if [[ ! "$i" == \-\-* ]]; then
+        FOLDER="$i"
+    fi
+done
+
+#echo Folder is "$FOLDER"
+
+if [ ! -z "$FOLDER" ]; then
+    #echo group is $(stat -c "%G" "$FOLDER"/../)
+    chown :$(stat -c "%G" "$FOLDER"/../) "$FOLDER"
+fi
