@@ -86,7 +86,13 @@ for f in ~/.bash_completion.d/*; do . $f; done
 #### BASH FUNCTIONS
 pathadd() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-        PATH="${PATH:+"$PATH:"}$1"
+        if [ -z "$2" ]; then
+            #append to path
+            PATH="${PATH:+"$PATH:"}$1"
+        else
+            #prepend to path
+            PATH="$1:${PATH:+"$PATH"}"
+        fi
     fi
 }
 
@@ -108,8 +114,8 @@ then
 fi
 
 ### ADD OPT PROGRAMS TO PATH
-pathadd /opt/bin/ #create symlinks to other opt executables here
-pathadd /opt/scripts/ # put generic one-off scripts here, add everything to the path
+pathadd /opt/bin/ "prepend" #create symlinks to other opt executables here
+pathadd /opt/scripts/ "prepend" # put generic one-off scripts here, add everything to the path
 pathadd /sbin/
 
 #function cdev-test {
