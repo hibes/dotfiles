@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 '''Removes this file and uneeded .vimrc config files'''
 
 import os
