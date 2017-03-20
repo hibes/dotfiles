@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Expects one or more usernames as input.
 Based on hostname determine which dotfiles should be installed with stow for each passed in user."""
 
@@ -16,28 +16,44 @@ post_stow_hook='post_stow_hook.py'
 #Holds all machines
 all_machines=[]
 
-def defineMachine(hostname, dotfilesList):
+def defineMachine(hostname, os, dotfilesList):
   """Creates a new machine and returns it"""
   new_machine = {'hn' : hostname,
+                 'os' : os,
                  'dot' : dotfilesList}
   return new_machine
 
 #Define default machines, used if actual machine can't be determined
-default_win=defineMachine('unknown_win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts'))
-default_nix=defineMachine('unknown_nix', ('ssh', 'bash', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
+default_win=defineMachine('unknown_win', 'win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts'))
+default_mac=defineMachine('unknown_mac', 'mac', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts'))
+default_nix=defineMachine('unknown_nix', 'nix', ('ssh', 'bash', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts'))
 
 #Define known machines
 all_machines.append(
-  defineMachine('deb7', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
+  defineMachine('deb7', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
 all_machines.append(
-  defineMachine('wintermute', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
+  defineMachine('wintermute', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
 all_machines.append(
-  defineMachine('aurora', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
+  defineMachine('aurora', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'scripts')))
 all_machines.append(
-  defineMachine('developer', ('ssh', 'bash', 'git', 'scripts')))
+  defineMachine('developer', 'nix', ('ssh', 'bash', 'git', 'scripts')))
 all_machines.append(
-  defineMachine('AE-3NJ28V1', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts')))
+  defineMachine('perigee.local', 'mac', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts')))
+all_machines.append(
+  defineMachine('AE-3NJ28V1', 'win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'scripts')))
 
+##################################################
+############### HELPER FUNCTIONS #################
+##################################################
+def userHome(machine, user):
+  path=''
+  if machine['os'] in 'win':
+    path += '/home/'
+  elif machine['os'] in 'mac':
+    path += '/Users/'
+  else:
+    path += '/home/'
+  return path + user
 
 ##################################################
 ################## HELP LOGIC ####################
@@ -46,7 +62,7 @@ if len(sys.argv) == 1:
   print('''
 PURPOSE:
   Uses stow to setup dotfiles in /home/username/dotfiles/* to /home/username/*
-  The machine name is determine dynamically by via os.uname()
+  The machine name is determined dynamically by via os.uname()
   An attempt is made to check if this is being run from a docker machine in
     which case "/root/hostname" is read to get the hostname instead
   Not all files in /home/username/dotfiles/* will be called with stow, only
@@ -85,6 +101,8 @@ else:
   if this_machine == {}:
     if "CYGWIN" in os.uname()[0]:
       this_machine = default_win
+    elif "Darwin" in os.uname()[0]:
+      this_machine = default_mac
     else:
       this_machine = default_nix
 
@@ -95,30 +113,30 @@ else:
     for user in sys.argv[1:]:
       #...call stow
       # get list of files to be stowed
-      next_stow=os.listdir("/home/" + user + "/dotfiles/" + dotfil)
+      next_stow=os.listdir(userHome(this_machine, user) + "/dotfiles/" + dotfil)
       #handle scripts folder specially
       if dotfil == "scripts":
         subprocess.call(["mkdir", "-p", "/opt/bin"]) #symlinks to /opt/ programs are kept
         subprocess.call(["mkdir", "-p", "/opt/scripts"]) #collection of minor scripts
         for stow_fil in next_stow:
-          subprocess.call(["cp", "/home/" + user + "/dotfiles/scripts/" + stow_fil, "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(["cp", userHome(this_machine, user) + "/dotfiles/scripts/" + stow_fil, "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
           subprocess.call(["chmod", "+x", "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
       else:
         # Some dot files need to setup differently depending on the machine call hooks as appropriate
         # call pre stow hook
-        if os.path.isfile("/home/" + user + "/dotfiles/" + dotfil + "/" + pre_stow_hook):
-          subprocess.call(["/home/" + user + "/dotfiles/" + dotfil + "/" + pre_stow_hook,
+        if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook):
+          subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook,
                            this_machine['hn'],
                            user])
 
         # remove any files that will conflict with stow
         for stow_fil in next_stow:
-          subprocess.call(["rm", "-rf", "/home/" + user + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(["stow", "-R", "-t /home/" + user + "/", "-d /home/" + user + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(["stow", "-R", "-t " + userHome(this_machine, user) +  "/", "-d " userHome(this_machine, user) + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
         # call post stow hook
-        if os.path.isfile("/home/" + user + "/dotfiles/" + dotfil + "/" + post_stow_hook):
-          subprocess.call(["/home/" + user + "/dotfiles/" + dotfil + "/" + post_stow_hook,
+        if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook):
+          subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook,
                            this_machine['hn'],
                            user])
 
