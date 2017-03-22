@@ -117,13 +117,16 @@ else:
       #...call stow
       # get list of files to be stowed
       next_stow=os.listdir(userHome(this_machine, user) + "/dotfiles/" + dotfil)
-      #handle scripts folder specially
-      if dotfil == "scripts":
-        subprocess.call(["mkdir", "-p", "/opt/bin"]) #symlinks to /opt/ programs are kept
+      #handle opt folder specially
+      if dotfil == "opt":
+        subprocess.call(["mkdir", "-p", "/opt/local"]) #where optional programs are created
+        subprocess.call(["mkdir", "-p", "/opt/local/bin"]) #symlinks to /opt/local/ programs
         subprocess.call(["mkdir", "-p", "/opt/scripts"]) #collection of minor scripts
+        subprocess.call(["mkdir", "-p", "/opt/scripts/setup"]) #collection of setup scripts mostly used by Dockerfiles
+        subprocess.call(["mkdir", "-p", "/opt/etc"]) #collection of configuration files 
+        subprocess.call(["mkdir", "-p", "/opt/etc/docker-compose"]) #collection of docker-compose.yml files
         for stow_fil in next_stow:
-          subprocess.call(["cp", userHome(this_machine, user) + "/dotfiles/scripts/" + stow_fil, "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(["chmod", "+x", "/opt/scripts/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(["cp", userHome(this_machine, user) + "/dotfiles/opt/" + stow_fil, "/opt/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
       else:
         # Some dot files need to setup differently depending on the machine call hooks as appropriate
         # call pre stow hook
