@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Setup minimum prerequisites for the most essential other scripts
+#Setup minimum prerequisites for a machine
 USER="$1"
 
 umask 002
@@ -13,6 +13,7 @@ apt-get install -y \
         telnet \
         locate \
         unzip \
+        dos2unix \
         vim \
         emacs \
         hunspell #common spell check program (used by emacs)
