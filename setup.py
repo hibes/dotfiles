@@ -88,7 +88,7 @@ else:
   ########## DETERMINE MACHINE LOGIC ##########
   hostname=''
   #check if this is running in a docker environment (because they have dynamic hostnames)
-  if os.path.isfile("/.dockerenv"):
+  if os.path.isfile("/.dockerenv") and os.path.isfile('/root/hostname'):
     fil=open("/root/hostname", "r")
     hostname=''.join(fil.read().split()) #read file, removing whitespaces
     fil.close()
