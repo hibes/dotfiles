@@ -125,8 +125,7 @@ else:
         subprocess.call(["mkdir", "-p", "/opt/scripts/setup"]) #collection of setup scripts mostly used by Dockerfiles
         subprocess.call(["mkdir", "-p", "/opt/etc"]) #collection of configuration files 
         subprocess.call(["mkdir", "-p", "/opt/etc/docker-compose"]) #collection of docker-compose.yml files
-        for stow_fil in next_stow:
-          subprocess.call(["cp", userHome(this_machine, user) + "/dotfiles/opt/" + stow_fil, "/opt/" +stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+        subprocess.Popen('cp -R ' + userHome(this_machine, user) + '/dotfiles/' + dotfil + '/* /opt/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) #collection of docker-compose.yml files
       else:
         # Some dot files need to setup differently depending on the machine call hooks as appropriate
         # call pre stow hook
