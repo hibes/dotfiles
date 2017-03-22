@@ -52,7 +52,10 @@ def userHome(machine, user):
   elif machine['os'] in 'mac':
     path += '/Users/'
   else:
-    path += '/home/'
+    if user == 'root':
+      path += '/'
+    else:
+      path += '/home/'
   return path + user
 
 ##################################################
