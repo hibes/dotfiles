@@ -132,7 +132,7 @@ else:
         # remove any files that will conflict with stow
         for stow_fil in next_stow:
           subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(["stow", "-R", "-t " + userHome(this_machine, user) +  "/", "-d " userHome(this_machine, user) + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(["stow", "-R", "-t " + userHome(this_machine, user) +  "/", "-d " + userHome(this_machine, user) + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
         # call post stow hook
         if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook):
