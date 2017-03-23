@@ -26,7 +26,7 @@ apt-get install -y stow
 
 #setup dotfiles
 su $NEW_USER -c "mkdir /home/$NEW_USER/dotfiles -p"
-cd /tmp; su $NEW_USER -c "git clone https://github.com/kevinjohnston/dotfiles.git"; cd /tmp/dotfiles; su $NEW_USER -c "git archive --format=tar -o /tmp/dotfiles.tar master"; su $NEW_USER -c "tar -x -C /home/$NEW_USER/dotfiles -f /tmp/dotfiles.tar"
+cd /tmp; su $NEW_USER -c "git clone https://github.com/kevinjohnston/dotfiles.git"; cd /tmp/dotfiles; su $NEW_USER -c "git archive --format=tar -o /tmp/dotfiles.tar master"; su $NEW_USER -c "tar -x -C /home/$NEW_USER/dotfiles -f /tmp/dotfiles.tar"; rm -rf /tmp/dotfiles*
 chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/dotfiles
 cd /home/$NEW_USER/dotfiles
 /home/$NEW_USER/dotfiles/setup.py $NEW_USER
