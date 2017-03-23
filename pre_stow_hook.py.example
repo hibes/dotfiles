@@ -11,8 +11,9 @@ post_stow_hook='post_stow_hook.py'
 
 machine=sys.argv[1]
 user=sys.argv[2]
+usr_home_path=sys.argv[3]
 
-dotfiles_path="/home/" + user + "/dotfiles/vim/"
+dotfiles_path=usr_home_path + "/dotfiles/vim/"
 
 if os.path.isfile(dotfiles_path + ".vimrc." + machine):
   subprocess.call(["cp",

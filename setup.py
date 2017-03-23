@@ -132,7 +132,8 @@ else:
         if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook):
           subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook,
                            this_machine['hn'],
-                           user])
+                           user,
+                           userHome(this_machine, user)])
 
         for stow_fil in next_stow:
           # remove any files that will conflict with stow
@@ -144,7 +145,8 @@ else:
         if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook):
           subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook,
                            this_machine['hn'],
-                           user])
+                           user,
+                           userHome(this_machine, user)])
 
         # if a stow file was moved, delete it
         subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)

@@ -12,17 +12,17 @@ post_stow_hook='post_stow_hook.py'
 
 machine=sys.argv[1]
 user=sys.argv[2]
+usr_home_path=sys.argv[3]
 
-usr_home_path="/home/" + user + "/"
-dotfiles_dot_path=usr_home_path + "dotfiles/vim/"
+dotfiles_dot_path=usr_home_path + "/dotfiles/vim/"
 
 #remove hooks
-if os.path.isfile(dotfiles_dot_path + pre_stow_hook):
-  os.remove(usr_home_path + pre_stow_hook)
+if os.path.isfile(dotfiles_dot_path + pre_stow_hook) and os.path.isfile(usr_home_path + "/" + pre_stow_hook):
+  os.unlink(usr_home_path + "/" + pre_stow_hook)
 
-if os.path.isfile(dotfiles_dot_path + post_stow_hook):
-  os.remove(usr_home_path + post_stow_hook)
+if os.path.isfile(dotfiles_dot_path + post_stow_hook) and os.path.isfile(usr_home_path + "/" + post_stow_hook):
+  os.unlink(usr_home_path + "/" + post_stow_hook)
 
 #remove unneeded vimrc files
 for fil in glob.glob(dotfiles_dot_path + ".vimrc.*"):
-  os.remove(fil)
+  os.unlink(usr_home_path + "/" + os.path.basename(fil))

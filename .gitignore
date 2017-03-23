@@ -25,6 +25,7 @@ vim/.vim/*
 !vim/.vimrc*
 !vim/.vim
 !vim/.vim/colors
+vim/.vimrc
 
 bash/.bash_history
 vim/.viminfo
