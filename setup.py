@@ -127,16 +127,17 @@ else:
         subprocess.call(["mkdir", "-p", "/opt/etc/docker-compose"]) #collection of docker-compose.yml files
         subprocess.Popen('cp -R ' + userHome(this_machine, user) + '/dotfiles/' + dotfil + '/* /opt/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) #collection of docker-compose.yml files
       else:
-        # Some dot files need to setup differently depending on the machine call hooks as appropriate
+        # Some dot files need to setup differently depending on the machine: call hooks as appropriate
         # call pre stow hook
         if os.path.isfile(userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook):
           subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + pre_stow_hook,
                            this_machine['hn'],
                            user])
 
-        # remove any files that will conflict with stow
         for stow_fil in next_stow:
+          # remove any files that will conflict with stow
           subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+          # call stow to create the file
           subprocess.call(["stow", "-R", "-t " + userHome(this_machine, user) +  "/", "-d " + userHome(this_machine, user) + "/dotfiles/ ", dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
         # call post stow hook
@@ -144,6 +145,11 @@ else:
           subprocess.call([userHome(this_machine, user) + "/dotfiles/" + dotfil + "/" + post_stow_hook,
                            this_machine['hn'],
                            user])
+
+        # if a stow file was moved, delete it
+        subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+        subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+        
 
   #close open files
   FNULL.close()
