@@ -16,5 +16,6 @@ apt-get install -y \
         dos2unix \
         vim \
         emacs \
+        sudo \
         hunspell #common spell check program (used by emacs)
 
