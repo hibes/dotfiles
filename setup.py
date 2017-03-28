@@ -24,23 +24,23 @@ def defineMachine(hostname, os, dotfilesList):
   return new_machine
 
 #Define default machines, used if actual machine can't be determined
-default_win=defineMachine('unknown_win', 'win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'opt'))
-default_mac=defineMachine('unknown_mac', 'mac', ('ssh', 'bash', 'vim', 'git', 'tmux', 'opt'))
-default_nix=defineMachine('unknown_nix', 'nix', ('ssh', 'bash', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt'))
+default_win=defineMachine('unknown_win', 'win', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'))
+default_mac=defineMachine('unknown_mac', 'mac', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'))
+default_nix=defineMachine('unknown_nix', 'nix', ('ssh', 'sh', 'bash', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt'))
 
 #Define known machines
 all_machines.append(
-  defineMachine('deb7', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
+  defineMachine('deb7', 'nix', ('ssh', 'sh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
 all_machines.append(
-  defineMachine('wintermute', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
+  defineMachine('wintermute', 'nix', ('ssh', 'sh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
 all_machines.append(
-  defineMachine('aurora', 'nix', ('ssh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
+  defineMachine('aurora', 'nix', ('ssh', 'sh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'profile', 'selected_editor', 'tmux', 'opt')))
 all_machines.append(
-  defineMachine('developer', 'nix', ('ssh', 'bash', 'git', 'opt')))
+  defineMachine('developer', 'nix', ('ssh', 'sh', 'bash', 'git', 'opt')))
 all_machines.append(
-  defineMachine('perigee.local', 'mac', ('ssh', 'bash', 'vim', 'git', 'tmux', 'opt')))
+  defineMachine('perigee.local', 'mac', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt')))
 all_machines.append(
-  defineMachine('AE-3NJ28V1', 'win', ('ssh', 'bash', 'vim', 'git', 'tmux', 'opt')))
+  defineMachine('AE-3NJ28V1', 'win', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt')))
 
 ##################################################
 ############### HELPER FUNCTIONS #################
