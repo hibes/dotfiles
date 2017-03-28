@@ -20,7 +20,7 @@ export SOURCED_DOT_PROFILE=1
 if [ -f "/opt/scripts/setup/env.sh" ]; then
   . /opt/scripts/setup/env.sh
 fi
-export PATH="/opt/scripts:/opt/bin:/usr/local/bin:$PATH"
+export PATH="/opt/scripts:/opt/local/bin:/usr/local/bin:$PATH"
 
 
 
