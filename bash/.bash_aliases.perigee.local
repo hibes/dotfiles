@@ -1,0 +1,172 @@
+##### 
+#######################################################
+alias fix-tunnelblick="sudo ifconfig en0 down; sudo route -v flush; sudo ifconfig en0 up"
+
+
+
+##### Confluent commands
+#######################################################
+alias zookeeper-start="/opt/confluent/bin/zookeeper-server-start /opt/confluent/etc/kafka/zookeeper.properties"
+alias kafka-start="/opt/confluent/bin/kafka-server-start /opt/confluent/etc/kafka/server.properties"
+alias schema-start="/opt/confluent/bin/schema-registry-start /opt/confluent/etc/schema-registry/schema-registry.properties"
+alias topics-list="/opt/confluent/bin/kafka-topics --list --zookeeper d-gp2-cmwzk-4.imovetv.com:2181/kafka10"
+alias consume-topic-begin="/opt/confluent/bin//kafka-console-consumer --zookeeper d-gp2-cmwzk-4.imovetv.com:2181/kafka10 --from-beginning --topic"
+alias consume-topic="/opt/confluent/bin//kafka-console-consumer --zookeeper d-gp2-cmwzk-4.imovetv.com:2181/kafka10 --topic"
+
+
+
+##### CMW commands
+#######################################################
+alias cmwng-start="cd ~/programming/cmwng/ && lein with-profiles +dev,-uber repl"
+alias cmw-classic-start="" #TODO
+alias admin-start="cd ~/programming/admin/ && lein figwheel" 
+alias tester-start="cd ~/programming/tester/ && lein figwheel"
+
+
+
+##### Vagrant commands
+#######################################################
+alias v-cmwng-start="cd ~/dev/hydra/vagrants/; vagrant destroy cmwng -f; vagrant up cmwng; vagrant ssh cmwng"
+alias v-cmw-classic-start="cd ~/dev/hydra/vagrants/; vagrant destroy cmw_classic -f; vagrant up cmw_classic; vagrant ssh cmw_classic"
+alias v-cmw-start="cd ~/dev/hydra/vagrants/; vagrant destroy cmw -f; vagrant up cmw; vagrant ssh cmw"
+alias v-salt-start="cd ~/dev/hydra/vagrants/; vagrant destroy salt -f; vagrant up salt; vagrant ssh salt"
+
+
+
+##### Docker commands
+#######################################################
+alias docker-clean='docker rm -f $(docker ps -qa --no-trunc --filter "status=exited"); docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)'
+
+
+
+##### Tomcat commands
+#######################################################
+alias tomcat-start="/opt/apache-tomcat-9.0.0.M11/bin/startup.sh"
+alias tomcat-stop="/opt/apache-tomcat-9.0.0.M11/bin/shutdown.sh"
+
+
+
+##### Figwheel commands
+#######################################################
+alias figwheel-ps="ps -ex | grep javascript | grep -v cmwng | cut -d' ' -f 1"
+
+
+
+##### Kafka connect commands
+#######################################################
+KAFKA_TOPIC=kafka-test
+CONNECTOR_NAME=con1
+CONNECTOR_URL=http://10.124.165.121:81/connectors
+#COUCHBASE_SERVERS=http://d-gp2-cmwcouch-3.imovetv.com:8091
+COUCHBASE_SERVERS=http://d-gp2-cmwcouch-3.imovetv.com
+
+startCon(){
+CONNECTOR_NAME=con${1:-0}
+#curl -X POST $STD_OUT -H "Content-Type: application/json" --data "
+# {"name": "$CONNECTOR_NAME",
+#  "config": {"connector.class":"cmw-k-cb-sink.ConcreteSinkConnector",
+#                 "tasks.max":"1",
+#                 "topics":"$KAFKA_TOPIC",
+#                 "topic-to-buckets":"$KAFKA_TOPIC:oauth\|cms",
+#                 "cb.servers":"$COUCHBASE_SERVERS"}}" $CONNECTOR_URL $VERBOSE --insecure
+curl -X POST $STD_OUT -H "Content-Type: application/json" --data "
+ {\"name\": \"$CONNECTOR_NAME\",
+  \"config\": {\"connector.class\":\"cmw-k-cb-sink.ConcreteSinkConnector\",
+                 \"tasks.max\":\"1\",
+                 \"topics\":\"$KAFKA_TOPIC\",
+                 \"topic-to-buckets\":\"$KAFKA_TOPIC:oauth|cms\",
+                 \"cb.servers\":\"$COUCHBASE_SERVERS\"}}" $CONNECTOR_URL $VERBOSE --insecure
+}
+
+stopCon(){
+CONNECTOR_NAME=con${1:-0}
+curl -X DELETE $CONNECTOR_URL/$CONNECTOR_NAME
+}
+
+statusCon(){
+  if [ -n "$1" ]; then
+    CONNECTOR_NAME=con$1
+  else
+    CONNECTOR_NAME=
+  fi
+  curl -X GET $CONNECTOR_URL/$CONNECTOR_NAME
+}
+
+#Start connec
+#alias start-con0="curl -X POST $STD_OUT -H \"Content-Type: application/json\" --data \"
+# {\"name\": \"$CONNECTOR_NAME\",
+#  \"config\": {\"connector.class\":\"cmw-k-cb-sink.ConcreteSinkConnector\",
+#                 \"tasks.max\":\"1\",
+#                 \"topics\":\"$KAFKA_TOPIC\",
+#                 \"topic-to-buckets\":\"$KAFKA_TOPIC:oauth\|cms\",
+#                 \"cb.servers\":\"$COUCHBASE_SERVERS\"}}\" $CONNECTOR_URL $VERBOSE --insecure"
+#
+#alias stop-con0="curl -X DELETE $CONNECTOR_URL/$CONNECTOR_NAME"
+#alias status-con0="curl -X GET $CONNECTOR_URL/$CONNECTOR_NAME"
+#
+#CONNECTOR_NAME=con2
+#CONNECTOR_NAME=con3
+
+#alias rancher-curl="fail_count=0; success_count=0; while [ \$success_count -lt 100 ]; do curl -m 1 -Ss http://10.124.165.121:8999/ | grep \"blue\|green\"; if [ \"\$?\" ]; then export fail_count=\$(expr \$fail_count + 1); else export success_count=\$(expr \$success_count + 1); fi; sleep 0.1; done; echo successes: \$success_count \nfailures: \$fail_count \ntotal: \$(expr \$success_count + \$fail_count)"
+alias rancher-curl="while [ 1 -eq 1 ]; do curl -m 1 -sS http://10.124.165.121:8999/ | grep \"blue\|green\"; sleep 0.1; done;"
+
+alias demo-rancher="while [ 1 -eq 1 ]; do curl -sS -m 1 10.124.165.121:8999 | grep \"green\|blue\"; sleep 0.1; done"
+
+
+
+##### Rancher poc test
+#######################################################
+alias rancher-load="curl http://10.124.165.121/?topic=kafka-test&delay=1&num=100&key=rand"
+alias rancher-set-prod="curl http://10.124.165.121/?prod=d-gp2-cmwkafka-1.imovetv.com:9092"
+alias rancher-high-load="rancher-set-prod && curl http://10.124.165.121/?reset=1 && echo \"Starting load...\"&& count=0 && time while [ 1 -eq 1 ]; do sleep 0.1; echo \"Sending 1000 messages to kafka\"; curl -sS 'http://10.124.165.121/?topic=kafka-test&delay=0&num=1000&key=rand' >/dev/null; count=\$(expr \$count + 1000); done echo $count"
+
+
+
+##### Redis commands
+#######################################################
+alias redis-start="docker stop redis-1; docker rm redis-1; docker run -v dev-redis:/data/redis/ --name redis-1 -d -p6379:6379 redis"
+
+
+
+##### Artifactory
+#######################################################
+alias art-start="docker stop artifactory; docker rm artifactory; docker run --name artifactory -p 8090:8081 -d artifactory"
+
+
+##### Casandra commands
+#######################################################
+alias cass-start="docker run --name hello-cassandra -d cassandra"
+
+
+
+##### WebSocket testing
+#######################################################
+alias poc-ws-server='docker build -t k/ws-server ~/programming/ws-poc/ws-server/ && docker stop ws-server && docker rm ws-server && docker run -p 7070:7070 --name ws-server -d k/ws-server && docker logs ws-server'
+alias d-ws-server-build="cd ~/programming/ws-poc/ws-server/; docker build -t k/ws-server ."
+alias d-ws-server-start="docker stop ws-server; docker rm ws-server; docker run -e PUSH_ONLY=false -e TAKE_ONLY=false -e PORT=7070 -e DELAY=1001 -e LOG_LEVEL=debug -e LOG_DIR=/tmp/log/ -e LOG_FILE=ws-log.log --name ws-server -p 7070:7070 -d k/ws-server"
+
+#test if server detects client disconnects on take
+alias test1-server="docker stop ws-server; docker rm ws-server; docker run -d -e PUSH_ONLY=false -e TAKE_ONLY=true -e PORT=7070 -e DELAY=1001 --name ws-server -p 7070:7070 k/ws-server"
+alias test1-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar localhost 7070 hi 1000 0" #host port msg msg-delay reconnect-prob
+
+#test if server detects client disconnects on push
+alias test2-server="docker stop ws-server; docker rm ws-server; docker run -d -e PUSH_ONLY=true -e TAKE_ONLY=false -e PORT=7070 -e DELAY=1001 --name ws-server -p 7070:7070 k/ws-server"
+alias test2-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar localhost 7070 hi 1000 0" #host port msg msg-delay reconnect-prob
+
+#test if server detects client disconnects w/o taking or pushing
+alias test3-server="docker stop ws-server; docker rm ws-server; docker run -d -e PUSH_ONLY=true -e TAKE_ONLY=true -e PORT=7070 -e DELAY=1001 --name ws-server -p 7070:7070 k/ws-server"
+alias test3-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar localhost 7070 hi 1000 0" #host port msg msg-delay reconnect-prob
+
+#test if websocket persists after long period of silence
+alias test4-server="docker stop ws-server; docker rm ws-server; docker run -d -e PUSH_ONLY=false -e TAKE_ONLY=true -e PORT=7070 -e DELAY=1001 --name ws-server -p 7070:7070 k/ws-server"
+alias test4-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar localhost 7070 hi 36000000 0" #host port msg msg-delay reconnect-prob
+
+# test client->server data flow
+alias chatty-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar 10.124.165.190 80 hi 1000 0" #host port msg msg-delay reconnect-prob
+
+#test server->client data flow 
+alias quiet-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar 10.124.165.190 80 hi 36000000 0" #host port msg msg-delay reconnect-prob
+
+# test no data flow
+alias silent-test-server="docker stop ws-server; docker rm ws-server; docker run -d -e PUSH_ONLY=false -e TAKE_ONLY=true -e PORT=7070 -e DELAY=1000 -e LOG_LEVEL=debug --name ws-server -p 7070:7070 kevinjohnston/ws-server:v1.1"
+alias silent-test-client="java -jar ~/programming/ws-poc/ws-client/target/uberjar/ws-client-0.1.0-SNAPSHOT-standalone.jar localhost 7070 hi 36000000 0" #host port msg msg-delay reconnect-prob
