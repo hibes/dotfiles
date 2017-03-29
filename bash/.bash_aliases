@@ -8,7 +8,6 @@ alias l="ls -lF"
 alias la="ls -alF"
 alias lr='ls -altrF'
 alias vl="lock"
-alias fix-tunnelblick="sudo ifconfig en0 down; sudo route -v flush; sudo ifconfig en0 up"
 alias vless="vimpager"
 alias vcat='vimcat'
 alias readlink='greadlink'
