@@ -191,10 +191,10 @@ for term in $TERMS; do
   done
 
   # try to find uncompiled term info
-  if [ -f ".${term}.terminfo" ]; then
+  if [ -f "${HOME}.${term}.terminfo" ]; then
 
     # compile it
-    tic ".${term}.terminfo"
+    tic "${HOME}.${term}.terminfo"
 
     # use it
     export TERM=$term
