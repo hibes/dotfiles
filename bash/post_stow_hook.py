@@ -23,6 +23,6 @@ if os.path.isfile(dotfiles_dot_path + pre_stow_hook) and os.path.isfile(usr_home
 if os.path.isfile(dotfiles_dot_path + post_stow_hook) and os.path.isfile(usr_home_path + "/" + post_stow_hook):
   os.unlink(usr_home_path + "/" + post_stow_hook)
 
-# remove unneeded vimrc files
+# remove unneeded bash_aliases files
 for fil in glob.glob(dotfiles_dot_path + ".bash_aliases.*"):
   os.unlink(usr_home_path + "/" + os.path.basename(fil))

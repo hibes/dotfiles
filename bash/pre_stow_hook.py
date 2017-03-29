@@ -24,5 +24,5 @@ if os.path.isfile(dotfiles_path + '.bash_aliases.' + machine):
   f_default.write(f_machine.read())
   
   # close open file handles
-  f_machine.read()
+  f_machine.close()
   f_default.close()
