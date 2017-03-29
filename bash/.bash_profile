@@ -1,19 +1,19 @@
-##### Sourced for login shells
+##### Sourced for BASH login shells
 # Should:
-# load .profile, as bash will not load it when this file is present
+# source .profile the default, non-bash specific profile, as bash will not load it when this file is present
 
 # Should not:
-# setup variables only appropriate to interactive shells
+# be used to set variables useful only when interacting at the command line e.g. CLICOLOR
 
-# This file only exists to force loading of other .bash* files 
-# For some reason debian has incorrectly decided that shouldn't happen when running /bin/bash
 
-# if .bash_profile exists, bash doesn't read .profile by default
-if [[ -f ~/.profile ]]; then
-  . ~/.profile
-fi
 
-# if .bashrc exists load it, and let it determine if the shell is interactive or not
-if [[ -f ~/.bashrc ]]; then
-    . ~/.bashrc
-fi
+##### Indicate this file was sourced
+##################################################
+export SOURCED_DOT_BASH_PROFILE=1
+
+
+
+##### Source other files
+##################################################
+[[ -s "$HOME/.profile" && -z ${SOURCED_DOT_PROFILE} ]] && source "$HOME/.profile" # Source the default .profile
+[[ -z ${SOURCED_DOT_BASHRC} ]] && source "$HOME/.bashrc" # for interactive shells, source .bashrc
