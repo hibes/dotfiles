@@ -6,6 +6,8 @@ USER="$1"
 umask 002
 
 apt-get install -y \
+        dialog \
+        expect \
         git \
         python3 \
         wget \
