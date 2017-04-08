@@ -1,7 +1,9 @@
 #!/bin/bash
 FILE=$1
-
 MOUNT_DIR=
+EMACS_IMAGE=kevinjohnston/emacs
+TAG=latest
+
 if [ -d $DOCKER_PROGRAMMING_DIR ]; then
   MOUNT_DIR=$DOCKER_PROGRAMMING_DIR
 else
@@ -16,7 +18,7 @@ if [ -n "$FILE" ]; then
   cp $FILE $TMP_FILE
 
   # edit copied file
-  docker run -it -v $MOUNT_DIR:/root/programming/ emacs /root/programming/${TMP_DIR}$FILE
+  docker run -it -v $MOUNT_DIR:/root/programming/ ${EMACS_IMAGE}:${TAG} /root/programming/${TMP_DIR}$FILE
 
   # overwrite real file with copy
   cp $TMP_FILE $FILE
@@ -26,6 +28,5 @@ if [ -n "$FILE" ]; then
     mv ${MOUNT_DIR}$TMP_DIR /tmp
   fi 
 else
-  docker run -it -v $MOUNT_DIR:/root/programming emacs
+  docker run -it -v $MOUNT_DIR:/root/programming ${EMACS_IMAGE}:${TAG}
 fi
-
