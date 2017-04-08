@@ -8,4 +8,5 @@ apt-get install -y \
                   hunspell \
                   emacs \
                   vim \
-                  lua5.2
+                  lua5.2 \
+                  tmux 
