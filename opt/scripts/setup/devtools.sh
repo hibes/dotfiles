@@ -5,6 +5,8 @@ USER="$1"
 #######################################################
 # Requires that common environment variables have been defined
 
+. /opt/scripts/setup/env.sh
+
 if [ -n "$SOURCED_ENV_SH" ]; then
   
   ##### Setup emacs
