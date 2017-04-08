@@ -1,0 +1,31 @@
+#!/bin/bash
+FILE=$1
+
+MOUNT_DIR=
+if [ -d $DOCKER_PROGRAMMING_DIR ]; then
+  MOUNT_DIR=$DOCKER_PROGRAMMING_DIR
+else
+  MOUNT_DIR=~/programming/
+fi
+
+if [ -n "$FILE" ]; then
+  # create a tmp directory to store file
+  TMP_DIR=$(basename $(mktemp -d))/
+  mkdir -p ${MOUNT_DIR}${TMP_DIR}
+  TMP_FILE=${MOUNT_DIR}${TMP_DIR}$FILE
+  cp $FILE $TMP_FILE
+
+  # edit copied file
+  docker run -it -v $MOUNT_DIR:/root/programming/ emacs /root/programming/${TMP_DIR}$FILE
+
+  # overwrite real file with copy
+  cp $TMP_FILE $FILE
+
+  # let temp directory be cleaned up on next restart
+  if ! [ ${MOUNT_DIR}$TMP_DIR == '/' ] && ! [ $MOUNT_DIR == '/' ] && ! [ $TMP_DIR == '/' ]; then
+    mv ${MOUNT_DIR}$TMP_DIR /tmp
+  fi 
+else
+  docker run -it -v $MOUNT_DIR:/root/programming emacs
+fi
+
