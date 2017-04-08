@@ -1,12 +1,8 @@
 #!/bin/bash
-USER="${1:-admin}"
 
-if ! [ -e "/opt/lein/lein" ] ; then
-  mkdir -p /opt/lein
-  cd /opt/lein/
-  wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -q
-  chmod +x /opt/lein/lein
-  ln -s /opt/lein/lein /opt/bin/lein
+if ! [ -e "${CUSTOM_PROGRAMS_BINARY_DIR}" ] ; then
+  wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -q -O ${CUSTOM_PROGRAMS_BINARY_DIR}lein
+  chmod +x ${CUSTOM_PROGRAMS_BINARY_DIR}lein
 fi
 
-su -c "/opt/bin/lein" $USER
+${CUSTOM_PROGRAMS_BINARY_DIR}lein
