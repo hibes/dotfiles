@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # package suggestions mostly obtained from http://xmodulo.com/useful-cli-tools-linux-system-admins.html
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 installed(){
   for TOOL in $@; do

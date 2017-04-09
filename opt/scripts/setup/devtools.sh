@@ -20,15 +20,6 @@ if [ -n "$SOURCED_ENV_SH" ]; then
   tar -xf /tmp/eclipse-jee-mars-R-linux-gtk-x86_64.tar.gz -C ${CUSTOM_PROGRAMS_DIR}
   echo 'done'
   
-  ##### Setup IntelliJ
-  #######################################################
-  echo 'Setting up IntelliJ...'
-  wget https://download.jetbrains.com/idea/ideaIC-2016.1.tar.gz -O /tmp/idea.tar.gz -q
-  tar -xf /tmp/idea.tar.gz -C ${CUSTOM_PROGRAMS_DIR} >/dev/null
-  mv ${CUSTOM_PROGRAMS_DIR}idea* ${CUSTOM_PROGRAMS_DIR} 
-  ln -s /opt/idea/bin/idea.sh /opt/bin/idea
-  echo 'done'
-  
   ##### Setup redis-cli
   #######################################################
   echo 'Setting up redis-cli...'
