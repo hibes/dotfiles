@@ -16,4 +16,4 @@ export SOURCED_DOT_BASH_PROFILE=1
 ##### Source other files
 ##################################################
 [[ -s "$HOME/.profile" && -z ${SOURCED_DOT_PROFILE} ]] && source "$HOME/.profile" # Source the default .profile
-[[ -z ${SOURCED_DOT_BASHRC} ]] && source "$HOME/.bashrc" # for interactive shells, source .bashrc
+source "$HOME/.bashrc" # for interactive shells, source .bashrc

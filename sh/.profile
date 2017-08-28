@@ -1775,4 +1775,6 @@ RANDOM=$$$(printf '%(%s)T\n' -1)
 quote=${AC_QUOTES[$RANDOM % ${#AC_QUOTES[@]}]}
 
 #create message of the day file and write a quote for next login
-touch /etc/motd 2>/dev/null && echo "$quote" > /etc/motd
+if [ -w /etc/motd ]; then
+  touch /etc/motd 2>/dev/null && echo "$quote" > /etc/motd
+fi

@@ -224,3 +224,11 @@ fi
 [[ -s "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
 shopt -q login_shell || su - $(whoami) # if not a login shell, prompt for login
+
+
+
+##### Start tmux seesion if not already in one
+#######################################################
+if ! [ -n "$TMUX" ]; then 
+  tmux
+fi
