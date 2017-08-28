@@ -1769,7 +1769,7 @@ the feeling that I have witnessed a form of transcendence.
            )
 
 # Seed random generator
-RANDOM=$$$(printf '%(%s)T\n' -1)
+RANDOM=$$$(printf '%s\n')
 
 
 quote=${AC_QUOTES[$RANDOM % ${#AC_QUOTES[@]}]}
