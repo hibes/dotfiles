@@ -48,6 +48,13 @@ fi
 export BOOT_JVM_OPTIONS=' -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none'
 
 
+
+##### Lein
+#######################################################
+export LEIN_ROOT=1 # disable warning when running lein commands as root
+
+
+
 ##### Alpha Centauri Quotes
 ##################################################
 # Used to update /etc/motd  (message of the day)
@@ -1762,9 +1769,12 @@ the feeling that I have witnessed a form of transcendence.
            )
 
 # Seed random generator
-RANDOM=$$$(date +%s)
+RANDOM=$$$(printf '%s\n')
+
 
 quote=${AC_QUOTES[$RANDOM % ${#AC_QUOTES[@]}]}
 
 #create message of the day file and write a quote for next login
-touch /etc/motd 2>/dev/null && echo "$quote" > /etc/motd
+if [ -w /etc/motd ]; then
+  touch /etc/motd 2>/dev/null && echo "$quote" > /etc/motd
+fi
