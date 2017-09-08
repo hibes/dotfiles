@@ -21,4 +21,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias tmux="tmux -2"
 
 
+##### Trackpad commands
+#######################################################
+alias mdisable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\" 0"
+alias menable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\" 1"
 
