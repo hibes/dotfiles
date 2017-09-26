@@ -1,0 +1,7 @@
+#!/bin/bash
+
+which cmatrix > /dev/null
+if [ $? -eq 0 ]; then
+  cmatrix -s 
+fi
+vlock
