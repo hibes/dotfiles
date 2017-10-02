@@ -1,0 +1,19 @@
+#!/bin/sh
+if [ -z "$1" ] ; then
+    konsole 2>/dev/null --separate --fullscreen --noclose -e $0 1
+else
+    TMUX=
+    if [ "$(tmux ls | grep dev | wc -l)" -eq 0 ] ; then
+        #create new dev session
+        tmux new-session -d -s dev '/opt/scripts/e'
+        tmux rename-window -t dev 'dev'
+        tmux select-window -t dev:0
+        tmux split-window -h -t dev:0
+        tmux split-window -v -t dev:0.1 
+        tmux resize-pane -R 80
+    fi
+    tmux select-pane -t dev:0.0
+
+    #attach to running dev session
+    tmux -2 attach-session -t dev 
+fi
