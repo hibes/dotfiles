@@ -26,3 +26,6 @@ alias tmux="tmux -2"
 alias mdisable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\" 0"
 alias menable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\" 1"
 
+##### Android commands
+#######################################################
+alias emu="emulator -avd Test15 -gpu off"
