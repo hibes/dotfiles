@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="services_last_item" mtime="1506382579" type="int" value="0"/>
+	<entry name="window_posy" mtime="1506382458" type="int" value="25"/>
+	<entry name="window_posx" mtime="1506382458" type="int" value="25"/>
+	<entry name="window_width" mtime="1506382458" type="int" value="500"/>
+	<entry name="window_height" mtime="1506382458" type="int" value="350"/>
+	<entry name="AppletPlugin" mtime="1506382575" type="list" ltype="string">
+		<li type="string">
+			<stringvalue>!NMPANSupport</stringvalue>
+		</li>
+		<li type="string">
+			<stringvalue>DhcpClient</stringvalue>
+		</li>
+		<li type="string">
+			<stringvalue>!PPPSupport</stringvalue>
+		</li>
+		<li type="string">
+			<stringvalue>NMDUNSupport</stringvalue>
+		</li>
+	</entry>
+</gconf>
