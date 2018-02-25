@@ -1,5 +1,5 @@
 [TimeZones]
-LocalZone=US/Central
+LocalZone=America/Merida
 ZoneinfoDir=/usr/share/zoneinfo
 Zonetab=/usr/share/zoneinfo/zone.tab
 ZonetabCache=

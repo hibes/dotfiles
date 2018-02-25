@@ -7,6 +7,10 @@ DefaultProfile=Shell.profile
 [Favorite Profiles]
 Favorites=
 
+[KFileDialog Settings]
+Height 1080=540
+Width 1920=960
+
 [KonsoleWindow]
 SaveGeometryOnExit=false
 ShowMenuBarByDefault=false
