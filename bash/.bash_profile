@@ -7,6 +7,18 @@
 
 
 
+##### Only config X once
+##################################################
+if [ -z "$SET_XMODMAP" ]; then
+  xmodmap -e "remove Lock = Caps_Lock" 2>/dev/null
+  xmodmap -e "keycode 9 = Escape"
+  xmodmap -e "keycode 66 = Escape"
+  xmodmap -e "keycode 78 = Caps_Lock"
+  export SET_XMODMAP=1
+fi
+
+
+
 ##### Indicate this file was sourced
 ##################################################
 export SOURCED_DOT_BASH_PROFILE=1
