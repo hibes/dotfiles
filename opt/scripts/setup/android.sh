@@ -11,7 +11,7 @@ export ANDROID_HOME=/usr/lib/android-sdk/ # note ANDROID_HOME is deprecated in f
 # see https://developer.android.com/studio/command-line/variables.html for other env variables you may want to set
 
 # install android sdk and platform
-sudo apt-get install -y android-tools-adb
+apt-get install -y android-tools-adb
 
 # download android sdk tools
 echo Downloading
