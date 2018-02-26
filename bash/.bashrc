@@ -229,6 +229,6 @@ shopt -q login_shell || su - $(whoami) # if not a login shell, prompt for login
 
 ##### Start tmux seesion if not already in one
 #######################################################
-if ! [ -n "$TMUX" ]; then 
+if ! [ -n "$TMUX" ] && [ -x "$(command -v tmux)" ]; then 
   tmux
 fi

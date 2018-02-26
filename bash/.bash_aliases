@@ -18,7 +18,7 @@ alias op="mimeopen"
 
 ##### Tmux commands
 ##################################################
-alias tmux="tmux -2"
+alias tmux="/usr/bin/tmux -2"
 
 
 ##### Trackpad commands
