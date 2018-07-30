@@ -14,6 +14,7 @@ face/*
 ICEauthority/*
 dbus/*
 nv/*
+android/*
 
 **/*.bin
 
@@ -36,9 +37,16 @@ ssh/.ssh/known_hosts
 cinnamon/.cinnamon/spices.cache
 kde/.kde/tmp-*
 kde/.kde/cache-*
+kde/.kde/data/stalefiles/*
 kde/.kde/socket-*
+kde/.kde/share/apps/*
 kde/.kde/share/apps/korganizer
 kde/.kde/share/config/kconf_updaterc
+kde/.kde/share/apps/RecentDocuments/
+kde/.kde/share/apps/kcookiejar/*
+kde/.kde/share/apps/kfileplaces/*
+kde/.kde/share/apps/konsole/*
+kde/.kde/share/apps/konsole/*
 
 TODO/.TODO
 updateInfoAdded=true
@@ -47,6 +55,8 @@ updateInfoAdded=true
 emacs/.emacs.d/auto-save-list/*
 **/.\#*
 **/*~
+
+*.bak
 
 #Never ignore hooks
 !*/pre_stow_hook.py

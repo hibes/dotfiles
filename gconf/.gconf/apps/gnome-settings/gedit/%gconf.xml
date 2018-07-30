@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="history-gedit2_search_for_entry" mtime="1519160356" type="list" ltype="string">
+		<li type="string">
+			<stringvalue>escape</stringvalue>
+		</li>
+	</entry>
+</gconf>

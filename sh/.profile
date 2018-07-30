@@ -49,6 +49,7 @@ export BOOT_JVM_OPTIONS=' -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1
 
 
 ##### Setup Android Dev related variables
+##################################################
 if [ -d "/usr/lib/android-sdk/" ]; then
   export ANDROID_SDK_ROOT=/usr/lib/android-sdk/
   export ANDROID_HOME=/usr/lib/android-sdk/ # note ANDROID_HOME is deprecated in favor of ANDROID_SDK_ROOT

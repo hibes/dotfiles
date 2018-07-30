@@ -61,6 +61,9 @@ InfoOutput=2
 [kded]
 InfoOutput=4
 
+[kdenlive]
+InfoOutput=4
+
 [kdostartupconfig4]
 InfoOutput=4
 
@@ -81,6 +84,9 @@ InfoOutput=2
 
 [knotify]
 InfoOutput=4
+
+[konsole]
+InfoOutput=2
 
 [korgac]
 InfoOutput=2

@@ -9,7 +9,6 @@
 
 ##### Only config X once
 ##################################################
-
 if [ -z "$SET_XMODMAP2" ]; then
   xmodmap -e "remove Lock = Caps_Lock" 2>/dev/null
   xmodmap -e "keycode 9 = Escape" 2>/dev/null
