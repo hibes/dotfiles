@@ -2,7 +2,7 @@
 ##################################################
 alias mkdir="mkdir -p"
 alias grep="grep --color=always"
-alias date="date +'%c'"
+alias datec="date +'%c'"
 alias ec="emacsclient"
 alias l="ls -lF"
 alias la="ls -alF"
@@ -11,7 +11,6 @@ alias vl="lock"
 alias vless="vimpager"
 alias vcat='vimcat'
 alias readlink='greadlink'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"' # Add an "alert" alias for long running commands.  e.g. sleep 10; alert
 alias mime="mimeopen"
 alias op="mimeopen"
 
@@ -19,7 +18,7 @@ alias op="mimeopen"
 
 ##### Tmux commands
 ##################################################
-alias tmux="tmux -2"
+alias tmux="/usr/bin/tmux -2"
 
 
 ##### Trackpad commands
@@ -29,7 +28,8 @@ alias menable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\"
 
 ##### Android commands
 #######################################################
-#function emulato { echo "hi" } # $(which emulator)")" && ./emulator "$@" }
-# function emulato { cd "$dirname " } #$(which emulator)")" && ./emulator "$@" }
-# alias emu="cd $ANDROID_SDK_ROOT/emulator; emulator -avd Test15 -gpu off & cd -"
- alias emu="emulator -avd Test15 -gpu off"
+alias emu="emulator -avd Test15 -gpu off"
+
+##### Backup to windows
+#######################################################
+alias overseer="cp -R ~/programming/overseer/ /media/kevin/708C98448C98072E/Users/Kevin/Desktop/; sudo chown -R kevin:kevin /media/kevin/708C98448C98072E/Users/Kevin/Desktop/overseer/"

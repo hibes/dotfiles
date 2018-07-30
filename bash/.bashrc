@@ -219,6 +219,16 @@ fi
 
 
 
+##### Block websites
+#######################################################
+if [ -z "$BLOCKED" ]; then
+  sudo block > /dev/null
+  export BLOCKED=1
+fi
+
+
+
+
 ##### Source other files
 #######################################################
 [[ -s "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
@@ -229,6 +239,6 @@ shopt -q login_shell || su - $(whoami) # if not a login shell, prompt for login
 
 ##### Start tmux seesion if not already in one
 #######################################################
-if ! [ -n "$TMUX" ]; then 
+if ! [ -n "$TMUX" ] && [ -x "$(which tmux)" ]; then
   tmux
 fi
