@@ -1,0 +1,28 @@
+#!/bin/bash
+## Block every IP address in ~/blocking.txt
+## DROP incoming packets to avoid information leak about your hosts firewall
+## (HT to Conor Mancone) REJECT outgoing packets to avoid browser wait
+
+# flush DNS
+# service nscd restart
+
+# reset iptables
+#    iptables -P INPUT ACCEPT
+#    iptables -P FORWARD ACCEPT
+#    iptables -P OUTPUT ACCEPT
+#    iptables -t nat -F
+#    iptables -t mangle -F
+#    iptables -F
+#    iptables -X
+
+
+
+BLOCKING=(reddit.com www.reddit.com \
+xkcd.com www.xkcd.com \
+smbc-comics.com www.smbc-comics.com)
+
+for i in "${BLOCKING[@]}"; do
+    echo "Blocking all traffic to and from $i"
+    /sbin/iptables -I INPUT -s $i -j DROP
+    /sbin/iptables -I OUTPUT -d $i -j REJECT
+done
