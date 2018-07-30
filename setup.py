@@ -7,6 +7,11 @@ import subprocess
 import sys
 
 ##################################################
+################### CONSTANTS ####################
+##################################################
+BAD_INPUT=1
+
+##################################################
 ############## CONFIGURATION LOGIC ###############
 ##################################################
 #Hook filenames
@@ -36,6 +41,8 @@ all_machines.append(
 all_machines.append(
   defineMachine('aurora', 'nix', ('ssh', 'sh', 'bash', 'kde', 'vim', 'X', 'git', 'gnome2', 'selected_editor', 'tmux', 'opt')))
 all_machines.append(
+  defineMachine('base', 'nix', ('ssh', 'sh', 'bash', 'git', 'opt')))
+all_machines.append(
   defineMachine('developer', 'nix', ('ssh', 'sh', 'bash', 'git', 'opt')))
 all_machines.append(
   defineMachine('perigee.local', 'mac', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt')))
@@ -58,10 +65,7 @@ def userHome(machine, user):
       path += '/home/'
   return path + user
 
-##################################################
-################## HELP LOGIC ####################
-##################################################
-if len(sys.argv) == 1:
+def printHelp():
   print('''
 PURPOSE:
   Uses stow to setup dotfiles in /home/username/dotfiles/* to /home/username/*
@@ -74,27 +78,36 @@ PURPOSE:
     used instead.
 
 USAGE:
-  Expects to be called with a list of usernames to setup.
-  e.g. ''' + sys.argv[0] + ''' kevin admin bob
+  Expects to be called with a list of usernames split by commas to setup.
+    e.g. ''' + sys.argv[0] + ''' kevin,admin,bob
+  And an optional machine hostname to use for setup
+    e.g. ''' + sys.argv[0] + ''' kevin,admin,bob developer
   ''')
-else:
 
-  ##################################################
-  ################# SETUP LOGIC ####################
-  ##################################################
-  #open /dev/null to ignore uninteresting errors
-  FNULL = open(os.devnull, 'w')
+def parseInputs():
+  try:
+    if sys.argv[1] == '-h':
+      printHelp()
+      exit()
 
-  ########## DETERMINE MACHINE LOGIC ##########
-  hostname=''
-  #check if this is running in a docker environment (because they have dynamic hostnames)
-  if os.path.isfile("/.dockerenv") and os.path.isfile('/root/hostname'):
-    fil=open("/root/hostname", "r")
-    hostname=''.join(fil.read().split()) #read file, removing whitespaces
-    fil.close()
-  else:
-    hostname=os.uname()[1]
+    users=sys.argv[1].split(',')
 
+    hostname=''
+    if len(sys.argv) > 2:
+      hostname=sys.argv[2]
+    #check if this is running in a docker environment (because they have dynamic hostnames)
+    elif os.path.isfile("/.dockerenv") and os.path.isfile('/root/hostname'):
+      fil=open("/root/hostname", "r")
+      hostname=''.join(fil.read().split()) #read file, removing whitespaces
+      fil.close()
+    else:
+      hostname=os.uname()[1]
+    return {'hostname': hostname, 'users': users}
+  except:
+    printHelp()
+    exit(BAD_INPUT)
+
+def machineConfig(hostname):
   this_machine={}
   for mach in all_machines:
     if (mach['hn'] == hostname):
@@ -108,12 +121,26 @@ else:
       this_machine = default_mac
     else:
       this_machine = default_nix
+  return this_machine
+
+##################################################
+################# SETUP LOGIC ####################
+##################################################
+#open /dev/null to ignore uninteresting errors
+with open(os.devnull, 'w') as FNULL:
+
+  ########## DETERMINE MACHINE LOGIC ##########
+  inputs=parseInputs()
+  hostname=inputs['hostname']
+  users=inputs['users']
+
+  this_machine=machineConfig(hostname)
 
   ########## SETUP MACHINE LOGIC ##########
   #for each dotfile to be setup with this machine...
   for dotfil in this_machine['dot']:
     #...and each user that needs to be setup...
-    for user in sys.argv[1:]:
+    for user in sys.argv[1].split(','):
       #...call stow
       # get list of files to be stowed
       next_stow=os.listdir(userHome(this_machine, user) + "/dotfiles/" + dotfil)
@@ -151,7 +178,3 @@ else:
         # if a stow file was moved, delete it
         subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
         subprocess.call(["rm", "-rf", userHome(this_machine, user) + "/" + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
-        
-
-  #close open files
-  FNULL.close()
