@@ -29,4 +29,7 @@ alias menable="xinput set-prop \"SynPS/2 Synaptics TouchPad\" \"Device Enabled\"
 
 ##### Android commands
 #######################################################
-alias emu="emulator -avd Test15 -gpu off"
+#function emulato { echo "hi" } # $(which emulator)")" && ./emulator "$@" }
+# function emulato { cd "$dirname " } #$(which emulator)")" && ./emulator "$@" }
+# alias emu="cd $ANDROID_SDK_ROOT/emulator; emulator -avd Test15 -gpu off & cd -"
+ alias emu="emulator -avd Test15 -gpu off"
