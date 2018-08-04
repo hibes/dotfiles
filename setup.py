@@ -180,8 +180,8 @@ def run_setup_scripts(_machine, users):
 def setup(users, hostname):
   # determine machine
   this_machine = get_machine(hostname)
-  run_dotfiles()
-  run_setup_scripts()
+  run_dotfiles(this_machine, users)
+  run_setup_scripts(this_machine, users)
             
 
 if __name__ == '__main__':
