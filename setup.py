@@ -21,6 +21,10 @@ import machine_configuration as conf
 #######################################################
 # Error codes
 BAD_INPUT=1
+SUBSCRIPT_FAILURE=2
+
+# Directories
+SETUP_SCRIPTS_DIR = '/opt/scripts/setup/'
 
 # Hook filenames
 pre_stow_hook='pre_stow_hook.py'
@@ -160,6 +164,7 @@ def run_dotfiles(machine, users):
         if dotfil == 'opt':
           opt(machine, user)
         else:
+          print('Setting up dotfile "' + dotfil + '" for user "' + user + '"')
           # handle pre_stow hook (if any), stow, and post_stow hook (if any)
           pre_stow(machine, user, dotfil)
           stow(machine, user, dotfil)
@@ -171,18 +176,27 @@ def run_dotfiles(machine, users):
 
 def run_setup_scripts(machine, users):
   with open(os.devnull, 'w') as FNULL:
-    for script, parameters in machine['setup']:
-      cmd = [script]
+    for script, parameters in machine['setup'].items():
+      cmd = [SETUP_SCRIPTS_DIR + script]
       cmd.extend(parameters)
       # run the setup script
-      subprocess.call(cmd, stdout=FNULL, stderr=subprocess.STDOUT)
+      msg_user = ''
+      for x in cmd:
+        msg_user += str(x) + ' '
+      print('Running command: "' + msg_user.strip() + '"')
+      return_code = subprocess.call(cmd, stdout=FNULL, stderr=subprocess.STDOUT)
+      if return_code > 0:
+        print('Error code "' + str(return_code) + '"' + ' encountered when running setup script, "' + SETUP_SCRIPTS_DIR + script + '"')
+        sys.exit(SUBSCRIPT_FAILURE)
   
 
 def setup(users, hostname):
   # determine machine
   machine = get_machine(hostname)
+  print('Setting up machine: "' + machine['hn'] + '"')
   run_dotfiles(machine, users)
   run_setup_scripts(machine, users)
+  print('Finished setting up machine: "' + machine['hn'] + '"')
             
 
 if __name__ == '__main__':
