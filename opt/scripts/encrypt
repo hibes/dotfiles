@@ -4,12 +4,12 @@
 FNAME=$1
 
 if [[ -z "$FNAME" ]]; then
-    echo "crypten <name of file>"
-    echo "  - crypten is a script to encrypt files using des3"
+    echo "encrypt <name of file>"
+    echo "  - encrypt is a script to encrypt files using des3"
     exit;
 fi
 
-openssl des3 -salt -in "$FNAME" -out "$FNAME.des3"
+openssl des3 -md md5 -salt -in "$FNAME" -out "$FNAME.des3"
 
 #from https://www.voltage.com/security/is-triple-des-not-secure-enough/
 #I've had a number of discussions about Triple-DES recently. Some people are saying that it's not secure enough to use to protect sensitive information. When I hear this, I always ask them to explain why they think this is the case, and their thoughts on this always seems to be a misperception or misunderstanding of some sort.
