@@ -29,7 +29,7 @@ all_machines.append(
   ds.machine('base',
              'nix',
              ('ssh', 'sh', 'bash', 'git', 'opt'),
-             {'prereq.sh': ('root')}))
+             {'prereq.sh': ('root',)}))
 all_machines.append(
   ds.machine('developer',
              'nix',
@@ -49,4 +49,4 @@ all_machines.append(
   ds.machine('emacs',
              'nix',
              ('ssh', 'sh', 'bash', 'git', 'opt'),
-             {'java.sh': (), 'clojure.sh': (), 'python2.sh': (), 'heroku.sh': (), 'name.sh': ('emacs')}))
+             {'java10.sh': (), 'clojure.sh': (), 'python2.sh': (), 'heroku.sh': (), 'name.sh': ('emacs',)}))

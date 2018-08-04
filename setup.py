@@ -71,7 +71,7 @@ def helper():
 
 def parse_inputs():
   ''' Parses user input, returns a dictionary of hostname and users list, or exiting with error if invalid. '''
-  EXIT_CODE = 0
+  EXIT_CODE = -1
   
   try:
     if sys.argv[1] == '-h':
