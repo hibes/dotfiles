@@ -49,4 +49,4 @@ all_machines.append(
   ds.machine('emacs',
              'nix',
              ('ssh', 'sh', 'bash', 'git', 'opt'),
-             {'java10.sh': (), 'clojure.sh': (), 'python2.sh': (), 'heroku.sh': (), 'name.sh': ('emacs',)}))
+             {'java10.sh': (), 'clojure.sh': (), 'python2.sh': (), 'heroku.sh': (), 'emacs.sh': ('root',), 'name.sh': ('emacs',)}))
