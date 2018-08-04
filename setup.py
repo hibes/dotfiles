@@ -135,11 +135,12 @@ def pre_stow(machine, user, dotfil):
 
 ''' Process each group of files to be managed with stow '''
 def stow(machine, user, dotfil):
-  for stow_fil in next_stow(machine, user, dotfil):
-    # remove any files that will conflict with stow
-    subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
-    # call stow to create the file
-    subprocess.call(['stow', '-R', '-t ' + user_home(machine, user) +  '/', '-d ' + user_home(machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+  with open(os.devnull, 'w') as FNULL:
+    for stow_fil in next_stow(machine, user, dotfil):
+      # remove any files that will conflict with stow
+      subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+      # call stow to create the file
+      subprocess.call(['stow', '-R', '-t ' + user_home(machine, user) +  '/', '-d ' + user_home(machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
 def post_stow(machine, user, dotfil):
   if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook):
