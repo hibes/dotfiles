@@ -112,43 +112,43 @@ def get_machine(hostname):
 
 ##### setup the machine
 #######################################################
-def next_stow(_machine, user, dotfile):
-  return os.listdir(user_home(_machine, user) + '/dotfiles/' + dotfile)
+def next_stow(machine, user, dotfile):
+  return os.listdir(user_home(machine, user) + '/dotfiles/' + dotfile)
 
-def opt(_machine, user):
+def opt(machine, user):
   subprocess.call(['mkdir', '-p', '/opt/local']) # where optional programs are created
   subprocess.call(['mkdir', '-p', '/opt/local/bin']) # symlinks to /opt/local/ programs
   subprocess.call(['mkdir', '-p', '/opt/scripts']) # collection of minor scripts
   subprocess.call(['mkdir', '-p', '/opt/scripts/setup']) # collection of setup scripts mostly used by Dockerfiles
   subprocess.call(['mkdir', '-p', '/opt/etc']) # collection of configuration files 
   subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose']) # collection of docker-compose.yml files
-  subprocess.Popen('cp -R ' + user_home(_machine, user) + '/dotfiles/opt/* /opt/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # collection of docker-compose.yml files
+  subprocess.Popen('cp -R ' + user_home(machine, user) + '/dotfiles/opt/* /opt/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # collection of docker-compose.yml files
 
-def pre_stow(_machine, user, dotfil):
+def pre_stow(machine, user, dotfil):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
   # call pre stow hook
-  if os.path.isfile(user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook):
-    subprocess.call([user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook,
+  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook):
+    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook,
                      machine['hn'],
                      user,
-                     user_home(_machine, user)])
+                     user_home(machine, user)])
 
 ''' Process each group of files to be managed with stow '''
-def stow(_machine, user, dotfil):
-  for stow_fil in next_stow(_machine, user, dotfil):
+def stow(machine, user, dotfil):
+  for stow_fil in next_stow(machine, user, dotfil):
     # remove any files that will conflict with stow
-    subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
     # call stow to create the file
-    subprocess.call(['stow', '-R', '-t ' + user_home(_machine, user) +  '/', '-d ' + user_home(_machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call(['stow', '-R', '-t ' + user_home(machine, user) +  '/', '-d ' + user_home(machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
-def post_stow(_machine, user, dotfil):
-  if os.path.isfile(user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook):
-    subprocess.call([user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook,
+def post_stow(machine, user, dotfil):
+  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook):
+    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook,
                      machine['hn'],
                      user,
-                     user_home(_machine, user)])
+                     user_home(machine, user)])
 
-def run_dotfiles(_machine, users):
+def run_dotfiles(machine, users):
   with open(os.devnull, 'w') as FNULL:
     # for each dotfile to be setup with this machine...
     for dotfil in machine['dot']:
@@ -157,18 +157,18 @@ def run_dotfiles(_machine, users):
         # ...call stow
         # handle opt folder specially
         if dotfil == 'opt':
-          opt(_machine, user)
+          opt(machine, user)
         else:
           # handle pre_stow hook (if any), stow, and post_stow hook (if any)
-          pre_stow(_machine, user, dotfil)
-          stow(_machine, user, dotfil)
-          post_stow(_machine, user, dotfil)
+          pre_stow(machine, user, dotfil)
+          stow(machine, user, dotfil)
+          post_stow(machine, user, dotfil)
           
           # if a stow file was moved, delete it
-          subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
 
-def run_setup_scripts(_machine, users):
+def run_setup_scripts(machine, users):
   with open(os.devnull, 'w') as FNULL:
     for script, parameters in machine['setup']:
       cmd = [script]
