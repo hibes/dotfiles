@@ -58,6 +58,8 @@ emacs/.emacs.d/auto-save-list/*
 
 *.bak
 
+__pycache__/*
+
 #Never ignore hooks
 !*/pre_stow_hook.py
 !*/post_stow_hook.py
