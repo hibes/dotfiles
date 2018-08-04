@@ -95,20 +95,20 @@ def parse_inputs():
 
 def get_machine(hostname):
   ''' Returns the machine datastructure for a given hostname, or appropriate default config. '''
-  this_machine = {}
+  machine = {}
   for mach in conf.all_machines:
     if (mach['hn'] == hostname):
-      this_machine = mach
+      machine = mach
 
   # this machine isn't defined, use default setup, try to detect os
-  if this_machine == {}:
+  if machine == {}:
     if 'CYGWIN' in os.uname()[0]:
-      this_machine = conf.default_win
+      machine = conf.default_win
     elif 'Darwin' in os.uname()[0]:
-      this_machine = conf.default_mac
+      machine = conf.default_mac
     else:
-      this_machine = conf.default_nix
-  return this_machine
+      machine = conf.default_nix
+  return machine
 
 ##### setup the machine
 #######################################################
@@ -129,7 +129,7 @@ def pre_stow(_machine, user, dotfil):
   # call pre stow hook
   if os.path.isfile(user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook):
     subprocess.call([user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook,
-                     _machine['hn'],
+                     machine['hn'],
                      user,
                      user_home(_machine, user)])
 
@@ -137,21 +137,21 @@ def pre_stow(_machine, user, dotfil):
 def stow(_machine, user, dotfil):
   for stow_fil in next_stow(_machine, user, dotfil):
     # remove any files that will conflict with stow
-    subprocess.call(['rm', '-rf', user_home(this_machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
     # call stow to create the file
-    subprocess.call(['stow', '-R', '-t ' + user_home(this_machine, user) +  '/', '-d ' + user_home(this_machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call(['stow', '-R', '-t ' + user_home(_machine, user) +  '/', '-d ' + user_home(_machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
 
 def post_stow(_machine, user, dotfil):
   if os.path.isfile(user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook):
     subprocess.call([user_home(_machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook,
-                     _machine['hn'],
+                     machine['hn'],
                      user,
                      user_home(_machine, user)])
 
 def run_dotfiles(_machine, users):
   with open(os.devnull, 'w') as FNULL:
     # for each dotfile to be setup with this machine...
-    for dotfil in _machine['dot']:
+    for dotfil in machine['dot']:
       # ...and each user that needs to be setup...
       for user in users:
         # ...call stow
@@ -165,12 +165,12 @@ def run_dotfiles(_machine, users):
           post_stow(_machine, user, dotfil)
           
           # if a stow file was moved, delete it
-          subprocess.call(['rm', '-rf', user_home(this_machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(['rm', '-rf', user_home(this_machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+          subprocess.call(['rm', '-rf', user_home(_machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
 
 def run_setup_scripts(_machine, users):
   with open(os.devnull, 'w') as FNULL:
-    for script, parameters in _machine['setup']:
+    for script, parameters in machine['setup']:
       cmd = [script]
       cmd.extend(parameters)
       # run the setup script
@@ -179,9 +179,9 @@ def run_setup_scripts(_machine, users):
 
 def setup(users, hostname):
   # determine machine
-  this_machine = get_machine(hostname)
-  run_dotfiles(this_machine, users)
-  run_setup_scripts(this_machine, users)
+  machine = get_machine(hostname)
+  run_dotfiles(machine, users)
+  run_setup_scripts(machine, users)
             
 
 if __name__ == '__main__':
