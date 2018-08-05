@@ -11,6 +11,8 @@ dotfile = a file or group of configuration files commonly hidden by being prefac
 stow = a unix program to manage a users dotfiles
 '''
 
+print('beginning of file')
+
 import os
 import subprocess
 import sys
