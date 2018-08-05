@@ -204,7 +204,6 @@ def setup(users, hostname):
             
 
 if __name__ == '__main__':
-  print('started __main__')
   inputs = parse_inputs()
   hostname = inputs['hostname']
   users = inputs['users']
