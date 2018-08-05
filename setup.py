@@ -67,16 +67,21 @@ def user_home(machine, user):
 
 def parse_inputs():
   ''' Parses user input, returns a dictionary of hostname and users list, or exiting with error if invalid. '''
-  EXIT_CODE = -1
+  EXIT_CODE = BAD_INPUT
   
   try:
+    # print help if requested
     if sys.argv[1] == '-h':
       print(help_str)
       EXIT_CODE = 0
       sys.exit()
-      
-    users = sys.argv[1].split(',')
 
+    # get users
+    users = sys.argv[1].split(',')
+    if not users:
+      sys.exit()
+
+    # get hostname
     hostname=''
     if len(sys.argv) > 2:
       hostname = sys.argv[2]
@@ -116,67 +121,72 @@ def get_machine(hostname):
 def next_stow(machine, user, dotfile):
   return os.listdir(user_home(machine, user) + '/dotfiles/' + dotfile)
 
-def opt(machine, user):
-  # create basic opt directory structure
-  subprocess.call(['mkdir', '-p', '/opt/local']) # where optional programs are created
-  subprocess.call(['mkdir', '-p', '/opt/local/bin']) # symlinks to /opt/local/ programs
-  subprocess.call(['mkdir', '-p', '/opt/scripts']) # collection of minor scripts
-  subprocess.call(['mkdir', '-p', '/opt/scripts/setup']) # collection of setup scripts mostly used by Dockerfiles
-  subprocess.call(['mkdir', '-p', '/opt/etc']) # collection of configuration files 
-  subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose']) # collection of docker-compose.yml files
+def setup_opt(machine, user):
+  with open(os.devnull, 'w') as FNULL:
+  # create basic opt directory structure...
+  
+  # where optional programs are created
+  subprocess.call(['mkdir', '-p', '/opt/local'], stdout=FNULL, stderr=subprocess.STDOUT)
+  # symlinks to /opt/local/ programs
+  subprocess.call(['mkdir', '-p', '/opt/local/bin'], stdout=FNULL, stderr=subprocess.STDOUT)
+  # collection of minor scripts
+  subprocess.call(['mkdir', '-p', '/opt/scripts'], stdout=FNULL, stderr=subprocess.STDOUT)
+  # collection of setup scripts mostly used by Dockerfiles
+  subprocess.call(['mkdir', '-p', '/opt/scripts/setup'], stdout=FNULL, stderr=subprocess.STDOUT)
+  # collection of configuration files 
+  subprocess.call(['mkdir', '-p', '/opt/etc'], stdout=FNULL, stderr=subprocess.STDOUT)
+  # collection of docker-compose.yml files
+  subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose'], stdout=FNULL, stderr=subprocess.STDOUT)
+  
   # add opt scripts
   print('Setting up opt files')
   sys.stdout.flush()
-  subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'])
+  subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'], stdout=FNULL, stderr=subprocess.STDOUT)
 
-def pre_stow(machine, user, dotfil):
+def pre_stow(machine, user, dotfile):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
   # call pre stow hook
-  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook):
-    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfil + '/' + pre_stow_hook,
+  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfile + '/' + pre_stow_hook):
+    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfile + '/' + pre_stow_hook,
                      machine['hn'],
                      user,
                      user_home(machine, user)])
 
 ''' Process each group of files to be managed with stow '''
-def stow(machine, user, dotfil):
+def stow(machine, user, dotfile):
   with open(os.devnull, 'w') as FNULL:
-    for stow_fil in next_stow(machine, user, dotfil):
+    for stow_fil in next_stow(machine, user, dotfile):
       # remove any files that will conflict with stow
       subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + stow_fil], stdout=FNULL, stderr=subprocess.STDOUT)
       # call stow to create the file
-      subprocess.call(['stow', '-R', '-t ' + user_home(machine, user) +  '/', '-d ' + user_home(machine, user) + '/dotfiles/ ', dotfil], stdout=FNULL, stderr=subprocess.STDOUT)
+      subprocess.call(['stow', '-R', '-t ' + user_home(machine, user) +  '/', '-d ' + user_home(machine, user) + '/dotfiles/ ', dotfile], stdout=FNULL, stderr=subprocess.STDOUT)
 
-def post_stow(machine, user, dotfil):
-  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook):
-    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfil + '/' + post_stow_hook,
+def post_stow(machine, user, dotfile):
+  if os.path.isfile(user_home(machine, user) + '/dotfiles/' + dotfile + '/' + post_stow_hook):
+    subprocess.call([user_home(machine, user) + '/dotfiles/' + dotfile + '/' + post_stow_hook,
                      machine['hn'],
                      user,
                      user_home(machine, user)])
-
-def run_dotfiles(machine, users):
+    
+def setup_dotfiles(machine, users):
   with open(os.devnull, 'w') as FNULL:
     # for each dotfile to be setup with this machine...
-    for dotfil in machine['dot']:
+    for dotfile in machine['dot']:
       # ...and each user that needs to be setup...
       for user in users:
         # ...call stow
-        # handle opt folder specially
-        if dotfil == 'opt':
-          opt(machine, user)
-        else:
-          print('Setting up dotfile "' + dotfil + '" for user "' + user + '"')
-          sys.stdout.flush()
-          # handle pre_stow hook (if any), stow, and post_stow hook (if any)
-          pre_stow(machine, user, dotfil)
-          stow(machine, user, dotfil)
-          post_stow(machine, user, dotfil)
-          
-          # if a stow file was moved, delete it
-          subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
-          subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+        print('Setting up dotfile "' + dotfile + '" for user "' + user + '"')
+        sys.stdout.flush()
+        # handle pre_stow hook (if any), stow, and post_stow hook (if any)
+        pre_stow(machine, user, dotfile)
+        stow(machine, user, dotfile)
+        post_stow(machine, user, dotfile)
+        
+        # if a stow file was moved, delete it
+        subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + pre_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
+        subprocess.call(['rm', '-rf', user_home(machine, user) + '/' + post_stow_hook], stdout=FNULL, stderr=subprocess.STDOUT)
 
-def run_setup_scripts(machine, users):
+def run_setup_scripts(machine):
   with open(os.devnull, 'w') as FNULL:
     for script, parameters in machine['setup'].items():
       cmd = [SETUP_SCRIPTS_DIR + script]
@@ -198,8 +208,20 @@ def setup(users, hostname):
   machine = get_machine(hostname)
   print('Setting up machine: "' + machine['hn'] + '"')
   sys.stdout.flush()
-  run_dotfiles(machine, users)
-  run_setup_scripts(machine, users)
+
+  # ensure /opt/ sub-directories and files are in place
+  if users:
+    user = users[0]
+  else:
+    user = 'root'
+  setup_opt(machine, user)
+    
+  # run various setup scripts
+  run_setup_scripts(machine)
+  
+  # setup configuration files for users
+  setup_dotfiles(machine, users)
+  
   print('Finished setting up machine: "' + machine['hn'] + '"')
             
 
