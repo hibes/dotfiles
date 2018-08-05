@@ -5,9 +5,9 @@ import machine_data_structures as ds
 all_machines=[]
 
 # Define default machines, used if actual machine can't be determined
-default_win = ds.machine('unknown_win', 'win', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'), ())
-default_mac = ds.machine('unknown_mac', 'mac', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'), ())
-default_nix = ds.machine('unknown_nix', 'nix', ('ssh', 'sh', 'bash', 'vim', 'X', 'git', 'gnome2', 'selected_editor', 'tmux', 'opt'), ())
+default_win = ds.machine('unknown_win', 'win', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'), {})
+default_mac = ds.machine('unknown_mac', 'mac', ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'), {})
+default_nix = ds.machine('unknown_nix', 'nix', ('ssh', 'sh', 'bash', 'vim', 'X', 'git', 'gnome2', 'selected_editor', 'tmux', 'opt'), {})
 
 # Define known machines
 all_machines.append(

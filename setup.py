@@ -120,13 +120,15 @@ def next_stow(machine, user, dotfile):
   return os.listdir(user_home(machine, user) + '/dotfiles/' + dotfile)
 
 def opt(machine, user):
+  # create basic opt directory structure
   subprocess.call(['mkdir', '-p', '/opt/local']) # where optional programs are created
   subprocess.call(['mkdir', '-p', '/opt/local/bin']) # symlinks to /opt/local/ programs
   subprocess.call(['mkdir', '-p', '/opt/scripts']) # collection of minor scripts
   subprocess.call(['mkdir', '-p', '/opt/scripts/setup']) # collection of setup scripts mostly used by Dockerfiles
   subprocess.call(['mkdir', '-p', '/opt/etc']) # collection of configuration files 
   subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose']) # collection of docker-compose.yml files
-  subprocess.Popen('cp -R ' + user_home(machine, user) + '/dotfiles/opt/* /opt/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # collection of docker-compose.yml files
+  # add opt scripts
+  subprocess.call(['cp', '-R ', user_home(machine, user) + '/dotfiles/opt/*', '/opt/'])
 
 def pre_stow(machine, user, dotfil):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
