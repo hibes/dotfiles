@@ -159,6 +159,7 @@ def post_stow(machine, user, dotfil):
                      user_home(machine, user)])
 
 def run_dotfiles(machine, users):
+  print('entered run_dotfile')
   with open(os.devnull, 'w') as FNULL:
     # for each dotfile to be setup with this machine...
     for dotfil in machine['dot']:
@@ -207,6 +208,7 @@ def setup(users, hostname):
             
 
 if __name__ == '__main__':
+  print('started __main__')
   inputs = parse_inputs()
   hostname = inputs['hostname']
   users = inputs['users']
