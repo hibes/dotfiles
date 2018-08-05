@@ -140,7 +140,7 @@ def setup_opt(machine, user):
     # add opt scripts
     print('Setting up opt files')
     sys.stdout.flush()
-    subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'])
+    subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 def pre_stow(machine, user, dotfile):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
@@ -196,7 +196,7 @@ def run_setup_scripts(machine):
         msg_user += str(x) + ' '
       print('Running command: "' + msg_user.strip() + '"')
       sys.stdout.flush()
-      return_code = subprocess.call(cmd, stdout=FNULL, stderr=subprocess.STDOUT)
+      return_code = subprocess.call(cmd)
       if return_code > 0:
         print('Error code "' + str(return_code) + '"' + ' encountered when running setup script, "' + SETUP_SCRIPTS_DIR + script + '"')
         sys.exit(SUBSCRIPT_FAILURE)
