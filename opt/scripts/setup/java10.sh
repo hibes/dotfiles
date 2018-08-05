@@ -21,7 +21,7 @@ else
 fi
 
 # Accept the Oracle Java 10 license without user input
-echo oracle-java10-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+echo oracle-java10-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 
 
 
