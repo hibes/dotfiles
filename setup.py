@@ -122,26 +122,25 @@ def next_stow(machine, user, dotfile):
   return os.listdir(user_home(machine, user) + '/dotfiles/' + dotfile)
 
 def setup_opt(machine, user):
-  with open(os.devnull, 'w') as FNULL:
   # create basic opt directory structure...
-  
-  # where optional programs are created
-  subprocess.call(['mkdir', '-p', '/opt/local'], stdout=FNULL, stderr=subprocess.STDOUT)
-  # symlinks to /opt/local/ programs
-  subprocess.call(['mkdir', '-p', '/opt/local/bin'], stdout=FNULL, stderr=subprocess.STDOUT)
-  # collection of minor scripts
-  subprocess.call(['mkdir', '-p', '/opt/scripts'], stdout=FNULL, stderr=subprocess.STDOUT)
-  # collection of setup scripts mostly used by Dockerfiles
-  subprocess.call(['mkdir', '-p', '/opt/scripts/setup'], stdout=FNULL, stderr=subprocess.STDOUT)
-  # collection of configuration files 
-  subprocess.call(['mkdir', '-p', '/opt/etc'], stdout=FNULL, stderr=subprocess.STDOUT)
-  # collection of docker-compose.yml files
-  subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose'], stdout=FNULL, stderr=subprocess.STDOUT)
-  
-  # add opt scripts
-  print('Setting up opt files')
-  sys.stdout.flush()
-  subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'], stdout=FNULL, stderr=subprocess.STDOUT)
+  with open(os.devnull, 'w') as FNULL:
+    # where optional programs are created
+    subprocess.call(['mkdir', '-p', '/opt/local'], stdout=FNULL, stderr=subprocess.STDOUT)
+    # symlinks to /opt/local/ programs
+    subprocess.call(['mkdir', '-p', '/opt/local/bin'], stdout=FNULL, stderr=subprocess.STDOUT)
+    # collection of minor scripts
+    subprocess.call(['mkdir', '-p', '/opt/scripts'], stdout=FNULL, stderr=subprocess.STDOUT)
+    # collection of setup scripts mostly used by Dockerfiles
+    subprocess.call(['mkdir', '-p', '/opt/scripts/setup'], stdout=FNULL, stderr=subprocess.STDOUT)
+    # collection of configuration files 
+    subprocess.call(['mkdir', '-p', '/opt/etc'], stdout=FNULL, stderr=subprocess.STDOUT)
+    # collection of docker-compose.yml files
+    subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose'], stdout=FNULL, stderr=subprocess.STDOUT)
+    
+    # add opt scripts
+    print('Setting up opt files')
+    sys.stdout.flush()
+    subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'], stdout=FNULL, stderr=subprocess.STDOUT)
 
 def pre_stow(machine, user, dotfile):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
