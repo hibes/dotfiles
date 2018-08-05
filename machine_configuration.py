@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import machine_data_structures as ds
+import collections
 
 # Holds all machines
 all_machines=[]
@@ -45,8 +46,16 @@ all_machines.append(
              'win',
              ('ssh', 'sh', 'bash', 'vim', 'git', 'tmux', 'opt'),
              {}))
+
+emacs_setup_scripts = collections.OrderedDict()
+emacs_setup_scripts['python2.sh:'] = ()
+emacs_setup_scripts['java10.sh'] = ()
+emacs_setup_scripts['clojure.sh'] = ()
+emacs_setup_scripts['heroku.sh'] = ()
+emacs_setup_scripts['emacs.sh'] = ('root',)
+emacs_setup_scripts['name.sh'] = ('emacs',)
 all_machines.append(
   ds.machine('emacs',
              'nix',
              ('ssh', 'sh', 'bash', 'git', 'opt'),
-             {'java10.sh': (), 'clojure.sh': (), 'python2.sh': (), 'heroku.sh': (), 'emacs.sh': ('root',), 'name.sh': ('emacs',)}))
+             emacs_setup_scripts))
