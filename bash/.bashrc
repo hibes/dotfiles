@@ -13,6 +13,9 @@ export SOURCED_DOT_BASHRC=1
 
 ##### Setup basics
 #######################################################
+# turn off infuriating ctrl-d closing terminal "feature"
+set -o ignoreeof
+
 # if not running interactively, don't do anything
 case $- in
     *i*) ;;
