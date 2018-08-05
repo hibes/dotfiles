@@ -140,7 +140,7 @@ def setup_opt(machine, user):
     # add opt scripts
     print('Setting up opt files')
     sys.stdout.flush()
-    subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'])
 
 def pre_stow(machine, user, dotfile):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
