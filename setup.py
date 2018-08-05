@@ -128,7 +128,7 @@ def opt(machine, user):
   subprocess.call(['mkdir', '-p', '/opt/etc']) # collection of configuration files 
   subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose']) # collection of docker-compose.yml files
   # add opt scripts
-  subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/*', '/opt/'])
+  subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'])
 
 def pre_stow(machine, user, dotfil):
   # Some dot files need to setup differently depending on the machine: call hooks as appropriate
