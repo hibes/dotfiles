@@ -11,8 +11,6 @@ dotfile = a file or group of configuration files commonly hidden by being prefac
 stow = a unix program to manage a users dotfiles
 '''
 
-print('beginning of file')
-
 import os
 import subprocess
 import sys
@@ -67,10 +65,6 @@ def user_home(machine, user):
       path += '/home/'
   return path + user
 
-def helper():
-  print(help_str)
-  sys.exit()
-
 def parse_inputs():
   ''' Parses user input, returns a dictionary of hostname and users list, or exiting with error if invalid. '''
   EXIT_CODE = -1
@@ -78,6 +72,7 @@ def parse_inputs():
   try:
     if sys.argv[1] == '-h':
       print(help_str)
+      EXIT_CODE = 0
       sys.exit()
       
     users = sys.argv[1].split(',')
@@ -123,7 +118,6 @@ def next_stow(machine, user, dotfile):
 
 def opt(machine, user):
   # create basic opt directory structure
-  print('opt stuff')
   subprocess.call(['mkdir', '-p', '/opt/local']) # where optional programs are created
   subprocess.call(['mkdir', '-p', '/opt/local/bin']) # symlinks to /opt/local/ programs
   subprocess.call(['mkdir', '-p', '/opt/scripts']) # collection of minor scripts
@@ -131,8 +125,8 @@ def opt(machine, user):
   subprocess.call(['mkdir', '-p', '/opt/etc']) # collection of configuration files 
   subprocess.call(['mkdir', '-p', '/opt/etc/docker-compose']) # collection of docker-compose.yml files
   # add opt scripts
-  print('copying files: ')
-  print('copying files: ' + user_home(machine, user))
+  print('Setting up opt files')
+  sys.stdout.flush()
   subprocess.call(['cp', '-R', user_home(machine, user) + '/dotfiles/opt/', '/'])
 
 def pre_stow(machine, user, dotfil):
@@ -161,20 +155,18 @@ def post_stow(machine, user, dotfil):
                      user_home(machine, user)])
 
 def run_dotfiles(machine, users):
-  print('entered run_dotfile')
   with open(os.devnull, 'w') as FNULL:
     # for each dotfile to be setup with this machine...
     for dotfil in machine['dot']:
       # ...and each user that needs to be setup...
       for user in users:
-        print('for user in users')
         # ...call stow
         # handle opt folder specially
         if dotfil == 'opt':
-          print('dotfil is opt: ' + dotfil)
           opt(machine, user)
         else:
           print('Setting up dotfile "' + dotfil + '" for user "' + user + '"')
+          sys.stdout.flush()
           # handle pre_stow hook (if any), stow, and post_stow hook (if any)
           pre_stow(machine, user, dotfil)
           stow(machine, user, dotfil)
@@ -194,6 +186,7 @@ def run_setup_scripts(machine, users):
       for x in cmd:
         msg_user += str(x) + ' '
       print('Running command: "' + msg_user.strip() + '"')
+      sys.stdout.flush()
       return_code = subprocess.call(cmd, stdout=FNULL, stderr=subprocess.STDOUT)
       if return_code > 0:
         print('Error code "' + str(return_code) + '"' + ' encountered when running setup script, "' + SETUP_SCRIPTS_DIR + script + '"')
@@ -204,6 +197,7 @@ def setup(users, hostname):
   # determine machine
   machine = get_machine(hostname)
   print('Setting up machine: "' + machine['hn'] + '"')
+  sys.stdout.flush()
   run_dotfiles(machine, users)
   run_setup_scripts(machine, users)
   print('Finished setting up machine: "' + machine['hn'] + '"')
