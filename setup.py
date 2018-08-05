@@ -164,9 +164,11 @@ def run_dotfiles(machine, users):
     for dotfil in machine['dot']:
       # ...and each user that needs to be setup...
       for user in users:
+        print('for user in users')
         # ...call stow
         # handle opt folder specially
         if dotfil == 'opt':
+          print('dotfil is opt: ' + dotfil)
           opt(machine, user)
         else:
           print('Setting up dotfile "' + dotfil + '" for user "' + user + '"')
