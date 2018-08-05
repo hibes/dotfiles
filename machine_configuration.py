@@ -48,7 +48,7 @@ all_machines.append(
              {}))
 
 emacs_setup_scripts = collections.OrderedDict()
-emacs_setup_scripts['python2.sh:'] = ()
+emacs_setup_scripts['python2.sh'] = ()
 emacs_setup_scripts['java10.sh'] = ()
 emacs_setup_scripts['clojure.sh'] = ()
 emacs_setup_scripts['heroku.sh'] = ()
