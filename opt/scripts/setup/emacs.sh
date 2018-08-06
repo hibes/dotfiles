@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EMACS_VERSION=${1:-24}
+EMACS_VERSION=${1:-25}
 USERS=${@:2}
 
 # Install emacs
