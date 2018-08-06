@@ -18,6 +18,9 @@ apt-get update
 apt-get install -y oracle-java10-installer
 
 # Accept the Oracle Java 10 license without user input
+if [ -z "$TERM" ]; then
+  echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+fi
 echo oracle-java10-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 
 if [ "$USE_THIS_VERSION_AS_DEFAULT_JAVA" -gt 0 ]; then

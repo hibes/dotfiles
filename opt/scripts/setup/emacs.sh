@@ -1,9 +1,10 @@
 #!/bin/bash
 
-USERS=$@
+EMACS_VERSION=${1:-24}
+USERS=${@:2}
 
 # Install emacs
-apt-get install -y emacs25
+apt-get install -y emacs$EMACS_VERSION
 
 for user in $USERS; do
   # Remove emacs.d if present

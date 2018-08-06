@@ -52,7 +52,7 @@ emacs_setup_scripts['python2.sh'] = ()
 emacs_setup_scripts['java10.sh'] = ()
 emacs_setup_scripts['clojure.sh'] = ()
 emacs_setup_scripts['heroku.sh'] = ()
-emacs_setup_scripts['emacs.sh'] = ('root',)
+emacs_setup_scripts['emacs.sh'] = ('24','root')
 emacs_setup_scripts['name.sh'] = ('emacs',)
 all_machines.append(
   ds.machine('emacs',
