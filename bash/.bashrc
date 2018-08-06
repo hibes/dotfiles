@@ -225,7 +225,10 @@ fi
 ##### Block websites
 #######################################################
 if [ -z "$BLOCKED" ]; then
-  sudo block > /dev/null
+  which sudo
+  if [ "$?" -eq 0 ]; then
+    sudo block > /dev/null
+  fi
   export BLOCKED=1
 fi
 

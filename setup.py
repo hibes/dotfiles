@@ -188,7 +188,7 @@ def setup_dotfiles(machine, users):
 def run_setup_scripts(machine):
   with open(os.devnull, 'w') as FNULL:
     for script, parameters in machine['setup'].items():
-      cmd = [SETUP_SCRIPTS_DIR + script]
+      cmd = [script]
       cmd.extend(parameters)
       # run the setup script
       msg_user = ''
@@ -196,7 +196,7 @@ def run_setup_scripts(machine):
         msg_user += str(x) + ' '
       print('Running command: "' + msg_user.strip() + '"')
       sys.stdout.flush()
-      return_code = subprocess.call(cmd)
+      return_code = subprocess.call(cmd, cwd=SETUP_SCRIPTS_DIR)
       if return_code > 0:
         print('Error code "' + str(return_code) + '"' + ' encountered when running setup script, "' + SETUP_SCRIPTS_DIR + script + '"')
         sys.exit(SUBSCRIPT_FAILURE)
