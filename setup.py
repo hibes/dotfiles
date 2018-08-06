@@ -196,7 +196,8 @@ def run_setup_scripts(machine):
         msg_user += str(x) + ' '
       print('Running command: "' + msg_user.strip() + '"')
       sys.stdout.flush()
-      return_code = subprocess.call('./' + cmd, cwd=SETUP_SCRIPTS_DIR)
+      cmd[0] = './' + cmd[0]
+      return_code = subprocess.call(cmd, cwd=SETUP_SCRIPTS_DIR)
       if return_code > 0:
         print('Error code "' + str(return_code) + '"' + ' encountered when running setup script, "' + msg_user.strip() + '"')
         sys.exit(SUBSCRIPT_FAILURE)
