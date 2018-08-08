@@ -49,14 +49,15 @@ export BOOT_JVM_OPTIONS=' -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1
 
 
 ##### Setup Android Dev related variables
-##################################################
 if [ -d "/usr/lib/android-sdk/" ]; then
   export ANDROID_SDK_ROOT=/usr/lib/android-sdk/
   export ANDROID_HOME=/usr/lib/android-sdk/ # note ANDROID_HOME is deprecated in favor of ANDROID_SDK_ROOT
   export PATH=$PATH:${ANDROID_SDK_ROOT}emulator/:$ANDROID_SDK_ROOT/android-sdk-tools/tools/bin/
   export LD_LIBRARY_PATH=${ANDROID_SDK_ROOT}emulator/lib64/qt/lib/:$LD_LIBRARY_PATH
-  function emulator { cd "$(dirname "$(which emulator)")" && ./emulator "$@"; } 
+  emulator () { cd "$(dirname "$(which emulator)")" && ./emulator "$@"; } 
 fi
+
+
 
 ##### Lein
 #######################################################
@@ -68,4 +69,16 @@ export LEIN_ROOT=1 # disable warning when running lein commands as root
 ##################################################
 if [ -f "./.quotes" ]; then
   source ./.quotes
+fi
+
+
+
+##### Block websites
+#######################################################
+if [ -z "$BLOCKED" ]; then
+  which sudo
+  if [ "$?" -eq 0 ]; then
+    sudo block > /dev/null
+  fi
+  export BLOCKED=1
 fi

@@ -222,19 +222,6 @@ fi
 
 
 
-##### Block websites
-#######################################################
-if [ -z "$BLOCKED" ]; then
-  which sudo
-  if [ "$?" -eq 0 ]; then
-    sudo block > /dev/null
-  fi
-  export BLOCKED=1
-fi
-
-
-
-
 ##### Source other files
 #######################################################
 [[ -s "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
