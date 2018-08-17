@@ -33,3 +33,8 @@ alias emu="emulator -avd Test15 -gpu off"
 ##### Backup to windows
 #######################################################
 alias overseer="cp -R ~/programming/overseer/ /media/kevin/708C98448C98072E/Users/Kevin/Desktop/; sudo chown -R kevin:kevin /media/kevin/708C98448C98072E/Users/Kevin/Desktop/overseer/"
+
+##### Docker commands
+#######################################################
+alias docker-clean-images='docker rmi $(docker images -a --filter=dangling=true -q)'
+alias docker-clean-ps='docker rm $(docker ps --filter=status=exited --filter=status=created -q)'
