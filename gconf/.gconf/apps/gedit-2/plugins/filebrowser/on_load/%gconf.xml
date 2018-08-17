@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <gconf>
-	<entry name="virtual_root" mtime="1519451534" type="string">
-		<stringvalue>file:///home/kevin/Downloads/The%20TCP%20IP%20Guide</stringvalue>
+	<entry name="virtual_root" mtime="1530086735" type="string">
+		<stringvalue>file:///home/kevin/Downloads/C%20Elegans/CElegansNeuroML-SNAPSHOT_030213/connectome</stringvalue>
 	</entry>
-	<entry name="root" mtime="1519451534" type="string">
+	<entry name="root" mtime="1530086735" type="string">
 		<stringvalue>file:///</stringvalue>
 	</entry>
-	<entry name="tree_view" mtime="1519451534" type="bool" value="true"/>
+	<entry name="tree_view" mtime="1530086735" type="bool" value="true"/>
 </gconf>
