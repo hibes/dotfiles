@@ -1,23 +1,55 @@
 #!/bin/sh
 if [ -z "$1" ] ; then
+    # if this is run without parameters, start a new terminal session and rerun script there
     konsole 2>/dev/null --separate --fullscreen --noclose -e $0 1
 else
-    TMUX=
+    ##### constants
+    #######################################################
+    export TMUX=
+    SESSION_NAME=monitor
+    HTOP_PANE="${SESSION_NAME}:0.0"
+    MAIL_PANE="${SESSION_NAME}:0.1"
+    DF_PANE="${SESSION_NAME}:0.2"
+    NETWORK_PANE="${SESSION_NAME}:0.3"
+    VIRSH_PANE="${SESSION_NAME}:0.4"
+    DOCKER_PANE="${SESSION_NAME}:0.4"
+
+    # setup new monitor tmux session if it doesn't already exist
     if [ "$(tmux ls | grep monitor | wc -l)" -eq 0 ] ; then
-        #create new monitor session
-        tmux new-session -d -s monitor 'exec htop'
-        tmux rename-window -t monitor 'Monitor'
-        tmux select-window -t monitor:0
-        tmux split-window -v -t monitor:0 'while true; do if [ -e "/var/mail/$USER" ]; then tail -f "/var/mail/$USER"; else echo "no mail in /var/mail/$USER"; sleep 1; clear; fi; done'
-        tmux split-window -h -t monitor:0.1 'while true; do df -h; sleep 1; clear; done'
-        tmux split-window -v -t monitor:0.2 'while true; do echo -e "VMs: \n"; virsh list; sleep 1; clear; done'
+        # create monitor session and name it
+        tmux new-session -d -s $SESSION_NAME '/bin/bash --login'
+        tmux rename-window -t $SESSION_NAME 'Monitor'
+
+        # start new htop monitoring
+        tmux send-keys -t "$HTOP_PANE" C-z 'htop' Enter
+
+        # Split off new mail monitoring
+        tmux split-window -v -t $HTOP_PANE '/bin/bash  --login'
+        tmux send-keys -t "$MAIL_PANE" 'while true; do clear; if [ -e "/var/mail/$USER" ]; then tail -f "/var/mail/$USER"; else echo "no mail in /var/mail/$USER"; sleep 1; fi; done' Enter
+
+        # Split off new df monitoring
+        tmux split-window -h -t $MAIL_PANE '/bin/bash  --login'
+        tmux send-keys -t "$DF_PANE" 'while true; do clear; df -h; sleep 1; done' Enter
+
+        # Split off new network monitoring
+        tmux split-window -v -t $MAIL_PANE '/bin/bash  --login'
+        tmux send-keys -t "$NETWORK_PANE" 'clear; ping 8.8.4.4' Enter
+
+        # Split off new virsh monitoring (using docker now, keeping in case of moving back/supporting both)
+        #tmux split-window -v -t $DF_PANE '/bin/bash'
+        #tmux send-keys -t $VIRSH_PANE 'while true; do echo -e "VMs: \n"; virsh list; sleep 1; clear; done' Enter
+
+        # Split off new docker monitoring
+        tmux split-window -v -t $DF_PANE '/bin/bash  --login'
+        # use tempfile and catting to avoid a 'blink' due to docker ps running slow
+        tmux send-keys -t $DOCKER_PANE 'DOCKER_TMP=$(mktemp); while true; do docker ps | perl -ne '"'"'@cols = split /\s{2,}/, $_; printf "%30s %20s %20s\n", $cols[1], $cols[3], $cols[4]'"'"' > $DOCKER_TMP; clear; cat $DOCKER_TMP; sleep 1; done'  Enter
     fi
-    tmux select-pane -t monitor:0.0
-    #attach to running monitor session
-    tmux -2 attach-session -t monitor
+
+    # attach to running monitor session
+    tmux select-pane -t $HTOP_PANE
+    tmux attach-session -t $SESSION_NAME
 fi
 
-#see
-#https://blog.serverdensity.com/80-linux-monitoring-tools-know/
-#
-#for more ideas
+##### See Also:
+#######################################################
+# https://blog.serverdensity.com/80-linux-monitoring-tools-know/
