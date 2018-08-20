@@ -226,9 +226,12 @@ fi
 #######################################################
 [[ -s "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
-shopt -q login_shell || su - $(whoami) # if not a login shell, prompt for login
-
-
+# if not a login shell prompt for login
+shopt -q login_shell || sudo -k echo '' > /dev/null
+LOGGED_IN=$?
+if [ $LOGGED_IN -gt 0 ]; then
+  exit
+fi
 
 ##### Start tmux seesion if not already in one
 #######################################################
