@@ -17,12 +17,19 @@
 
 
 
-BLOCKING=(reddit.com www.reddit.com \
-xkcd.com www.xkcd.com \
-smbc-comics.com www.smbc-comics.com)
+FLAG_IP=127.0.0.123 # ip used to determine if this script has been run
 
-for i in "${BLOCKING[@]}"; do
+BLOCKING=($FLAG_IP \
+          reddit.com www.reddit.com \
+          xkcd.com www.xkcd.com \
+          smbc-comics.com www.smbc-comics.com)
+
+/sbin/iptables -L INPUT | grep $FLAG_IP > /dev/null
+BLOCKED=$?
+if [ $BLOCKED -gt 0 ]; then
+  for i in "${BLOCKING[@]}"; do
     echo "Blocking all traffic to and from $i"
     /sbin/iptables -I INPUT -s $i -j DROP
     /sbin/iptables -I OUTPUT -d $i -j REJECT
-done
+  done
+fi
