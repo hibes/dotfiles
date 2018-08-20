@@ -65,14 +65,6 @@ export LEIN_ROOT=1 # disable warning when running lein commands as root
 
 
 
-##### Alpha Centauri Quotes
-##################################################
-if [ -f "./.quotes" ]; then
-  source ./.quotes
-fi
-
-
-
 ##### Block websites
 #######################################################
 which sudo > /dev/null 2>&1

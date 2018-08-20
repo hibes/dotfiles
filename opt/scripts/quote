@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ##### Alpha Centauri Quotes
 ##################################################
 # Used to update /etc/motd  (message of the day)
@@ -10,8 +12,8 @@
 # Copyright (c) 1997, 1998 by Firaxis Games, Inc.
 #
 
+CREATE_MOTD=${1:-0} # if set, creates Message Of The Day
 AC_QUOTES=()
-if [ 1 -eq 0 ]; then
 AC_QUOTES+=("
 ##Opening Quotation
 #OPENING
@@ -1717,9 +1719,10 @@ RANDOM=$$$(printf '%s\n')
 
 
 quote=${AC_QUOTES[$RANDOM % ${#AC_QUOTES[@]}]}
-fi
 
-#create message of the day file and write a quote for next login
-if [ -w /etc/motd ]; then
+# create message of the day file and write a quote for next login
+if [ -w /etc/motd ] && [[ "$CREATE_MOTD" -gt 0 ]]; then
   touch /etc/motd 2>/dev/null && echo "$quote" > /etc/motd
 fi
+
+echo "${AC_QUOTES[$RANDOM % ${#AC_QUOTES[@]}]}"
