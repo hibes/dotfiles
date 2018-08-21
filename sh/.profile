@@ -69,7 +69,7 @@ export LEIN_ROOT=1 # disable warning when running lein commands as root
 #######################################################
 which sudo > /dev/null 2>&1
 if [ "$?" -gt 0 ]; then
-  sudo block > /dev/null 2>&1
-else
   block > /dev/null 2>&1
+else
+  sudo block > /dev/null 2>&1
 fi
